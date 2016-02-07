@@ -8,32 +8,28 @@ import logging
 import charsheet
 
 
-def defineAbility(char):
+def defineAbility():
+    count = len(character.STATS)
     logging.info("Determine Ability Scores")
+    data = {
+        "name": "Test",
+        "stats": [0, 13]
+    }
+    chars = [
+        character.Char(name="Standard", stats=abilities.standard(count)),
+        character.Char(name="Classic", stats=abilities.standard(count)),
+        character.Char(name="Heroic", stats=abilities.standard(count)),
+        character.Char(name="Pool", stats=abilities.standard(count)),
+        character.Char(name="Pool", stats=abilities.pool([0, 3, 4, 5, 4, 3])),
+        character.Char(**data),
+    ]
 
-    l = abilities.standard(char)
-    char.fill(*l)
-    logging.info("Standard %s - %s", l, char.abilities)
-    logging.info(char.cost)
-    charsheet.showChar(char)
+    for c in chars:
+        print("-" * 80)
+        charsheet.showChar(c)
+    print("-" * 80)
 
-    l = abilities.classic(char)
-    char.fill(*l)
-    logging.info("Classic %s - %s", l, char.abilities)
-    logging.info(char.cost)
-    charsheet.showChar(char)
-
-    l = abilities.heroic(char)
-    char.fill(*l)
-    logging.info("Heroic %s - %s", l, char.abilities)
-    logging.info(char.cost)
-    charsheet.showChar(char)
-
-    l = abilities.pool(char, [0, 3, 4, 5, 4, 3])
-    char.fill(*l)
-    logging.info("Pool %s - %s", l, char.abilities)
-    logging.info(char.cost)
-    charsheet.showChar(char)
+    return chars
 
 
 def pickRace():
@@ -57,8 +53,7 @@ def finishDetails():
 
 
 def main():
-    char = character.Char()
-    defineAbility(char)
+    chars = defineAbility()
     pickRace()
     pickClass()
     pickSkills()

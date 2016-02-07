@@ -5,19 +5,19 @@
 import dice
 
 
-def standard(char):
-    return [dice.d(4, 6, dropMin=1) for a in char.abilities]
+def standard(count):
+    return [dice.d(4, 6, dropMin=1) for a in range(count)]
 
 
-def classic(char):
-    return [dice.d(3, 6) for a in char.abilities]
+def classic(count):
+    return [dice.d(3, 6) for a in range(count)]
 
 
-def heroic(char):
-    return [dice.d(2, 6, modifier=6) for a in char.abilities]
+def heroic(count):
+    return [dice.d(2, 6, modifier=6) for a in range(count)]
 
 
-def pool(char, dices):
+def pool(dices):
     return [dice.d(max(n, 3), 6) for n in dices]
 
 
@@ -28,12 +28,14 @@ def purchase():
 class Ability():
     minValue = 3
     maxValue = 18
+    tempAdjustment = 0
+
     def __init__(self, value=None):
         self.value = value
 
     @property
     def value(self):
-        return self.__value
+        return self.__value + self.tempAdjustment
 
     @value.setter
     def value(self, value):

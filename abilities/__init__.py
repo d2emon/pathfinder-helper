@@ -43,6 +43,8 @@ class Ability():
 
         if not self.isSet:
             value = 0
+        print(value)
+        print(int(value))
 
         if value < self.minValue:
             self.__value = self.minValue

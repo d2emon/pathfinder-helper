@@ -12,7 +12,11 @@ def showChar(char):
     print("Homeland: ", char.homeland)
     print("Race: ", char.race)
     print("Size: ", char.size)
-    print("Gender: ", char.gender)
+    print("Gender: ", [
+        "?",
+        "M",
+        "F",
+    ][char.gender])
     print("Age: ", char.age)
     print("Height: ", char.height)
     print("Weight: ", char.weight)
@@ -26,4 +30,4 @@ def showChar(char):
 def showAbilities(char):
     for k in char.abilities:
         a = char.abilities[k]
-        print("%s: %d (%d)" % (k, a.value, a.modifier))
+        print("%s: %s" % (k, a))

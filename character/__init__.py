@@ -63,7 +63,12 @@ class Char():
             "WIS": abilities.Ability(),
             "CHA": abilities.Ability(),
         }
-        self.fill(*args.get("stats", []))
+        stats = args.get("stats", [])
+        logging.debug("Stats are: %s", stats)
+        if isinstance(stats, dict):
+            self.fill(**stats)
+        else:
+            self.fill(*stats)
 
     def fill(self, *stats, **named):
         logging.debug("Stats are: %s", stats)

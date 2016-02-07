@@ -2,19 +2,19 @@
 # -*- coding:utf-8 -*-
 
 
+import logging
+import yaml
 import character
 import abilities
-import logging
 import charsheet
 
 
 def defineAbility():
     count = len(character.STATS)
     logging.info("Determine Ability Scores")
-    data = {
-        "name": "Test",
-        "stats": [0, 13]
-    }
+    with open("test.yml", "r") as f:
+        data = yaml.load(f)
+    print(data)
     chars = [
         character.Char(name="Standard", stats=abilities.standard(count)),
         character.Char(name="Classic", stats=abilities.standard(count)),

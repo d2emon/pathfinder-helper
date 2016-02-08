@@ -3,31 +3,37 @@
 
 
 def showChar(char):
-    print("Name: ", char.name)
-    print("Alignment: ", char.alignment)
-    print("Player: ", char.player)
-    print("Class: ", char.charClass)
-    print("Level: ", char.level)
-    print("Deity: ", char.deity)
-    print("Homeland: ", char.homeland)
-    print("Race: ", char.race)
-    print("Size: ", char.size)
-    print("Gender: ", [
-        "?",
-        "M",
-        "F",
-    ][char.gender])
-    print("Age: ", char.age)
-    print("Height: ", char.height)
-    print("Weight: ", char.weight)
-    print("Hair: ", char.hair)
-    print("Eyes: ", char.eyes)
+    print("Name:\t", char.name)
+    print("Align:\t", char.alignment)
+    print("Player:\t", char.player)
+    print("Class:\t%s(%d)" % (char.charClass, char.level))
+    print("Deity:\t", char.deity)
+    print("Home:\t", char.homeland)
+    showRace(char.race)
+    print("Size:\t", char.size)
+    print("Gender:\t", ["?", "M", "F"][char.gender])
+    print("Age:\t", char.age)
+    print("Height:\t", char.height)
+    print("Weight:\t", char.weight)
+    print("Hair:\t", char.hair)
+    print("Eyes:\t", char.eyes)
     showAbilities(char)
     print("-" * 40)
-    print("Cost: ", char.cost)
+    print("Cost:\t", char.cost)
 
 
 def showAbilities(char):
     for k in char.abilities:
         a = char.abilities[k]
-        print("%s: %s" % (k, a))
+        print("\t%s:\t%s" % (k, a))
+
+
+def showRace(race):
+    print("Race:\t", race.name)
+    print("\tAbilities: ", race.abilities)
+    print("\tSize: ", race.size)
+    print("\tSpeed: ", race.speed)
+    print("\tLowlight: ", race.lowlight)
+    print("\tDarkvision: ", race.darkvision)
+    print("\tWeapons: ", race.weapons, race.weaponGroups)
+    print("\tLanguages: ", race.languages, race.additionalLanguages)

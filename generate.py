@@ -7,6 +7,7 @@ import yaml
 import character
 import abilities
 import charsheet
+import race
 
 
 def defineAbility():
@@ -16,11 +17,11 @@ def defineAbility():
         data = yaml.load(f)
     print(data)
     chars = [
-        character.Char(name="Standard", stats=abilities.standard(count)),
-        character.Char(name="Classic", stats=abilities.standard(count)),
-        character.Char(name="Heroic", stats=abilities.standard(count)),
-        character.Char(name="Pool", stats=abilities.standard(count)),
-        character.Char(name="Pool", stats=abilities.pool([0, 3, 4, 5, 4, 3])),
+        character.Char(name="Standard", stats=abilities.standard(count), raceId=race.RACE_DWARF),
+        character.Char(name="Classic", stats=abilities.standard(count), raceId=race.RACE_ELF),
+        character.Char(name="Heroic", stats=abilities.standard(count), raceId=race.RACE_GNOME),
+        character.Char(name="Pool", stats=abilities.standard(count), raceId=race.RACE_HALFELF),
+        character.Char(name="Pool", stats=abilities.pool([0, 3, 4, 5, 4, 3]), raceId=race.RACE_HALFORC),
         character.Char(**data),
     ]
 

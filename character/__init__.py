@@ -4,6 +4,7 @@
 
 import logging
 import abilities
+import race
 
 
 GENDER_UNKNOWN = 0
@@ -55,6 +56,7 @@ class Char():
         logging.debug("Args are: %s", args)
         for a in self.default:
             setattr(self, a, args.get(a, self.default[a]))
+
         self.abilities = {
             "STR": abilities.Ability(),
             "DEX": abilities.Ability(),
@@ -69,6 +71,10 @@ class Char():
             self.fill(**stats)
         else:
             self.fill(*stats)
+
+        raceId = args.get("raceId", race.RACE_UNKNOWN)
+        self.race = race.raceById(raceId)
+        self.race.apply(self)
 
     def fill(self, *stats, **named):
         logging.debug("Stats are: %s", stats)

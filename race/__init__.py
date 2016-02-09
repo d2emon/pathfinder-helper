@@ -32,11 +32,12 @@ RACE_GNOME = 4
 RACE_HALFELF = 5
 RACE_HALFORC = 6
 RACE_HALFLING = 7
+RACE_ORC = 8
 
 
 def raceById(id):
     if id == RACE_HUMAN:
-        return Race()
+        return Human()
     elif id == RACE_DWARF:
         return Dwarf()
     elif id == RACE_ELF:
@@ -44,11 +45,11 @@ def raceById(id):
     elif id == RACE_GNOME:
         return Gnome()
     elif id == RACE_HALFELF:
-        return Race()
+        return Halfelf()
     elif id == RACE_HALFORC:
-        return Race()
+        return Halforc()
     elif id == RACE_HALFLING:
-        return Race()
+        return Halfling()
     else:
         return Race()
 
@@ -56,15 +57,22 @@ def raceById(id):
 class Race():
     def __init__(self):
         self.name = "Unknown"
+        self.blood = RACE_UNKNOWN
         self.abilities = dict()
+        self.randAbility = []
         self.size = SIZE_MEDIUM
         self.speed = 30
         self.lowlight = 1
         self.darkvision = 0
+        self.favouredClasses = 1
+        self.feats = []
         self.weapons = []
         self.weaponGroups = []
         self.languages = ["common"]
         self.additionalLanguages = []
+        self.anyLanguage = False
+        self.addFeat = 0
+        self.addSkill = 0
 
     def apply(self, char):
         logging.debug("Race is %s", self.name)
@@ -95,7 +103,8 @@ class Race():
 
     def skill(self, skillName, identify=False):
         if self.size == SIZE_SMALL:
-            return 4
+            if skillName == "stealth":
+                return 4
         return 0
 
     def spell(self, spellType=0):
@@ -109,17 +118,48 @@ class Race():
             return 1
         return 0
 
+    def fear(self):
+        return 0
+
+
+    def savingThrow(self):
+        return 0
+
+
+class Human(Race):
+    def __init__(self):
+        Race.__init__(self)
+        self.name = "Human"
+        self.blood = [RACE_HUMAN]
+        self.randAbility = [2]
+
+        self.addFeat = 1
+        self.addSkill = 1
+
+        self.anyLanguage = True
+
+    def perception(self, stone=False):
+        return 2
+
+    def spell(self, spellType=0):
+        if spellType == SPELL_SLEEP:
+            return None
+        if spellType == SPELL_ENCHANT:
+            return 2
+        return 0
+
 
 class Dwarf(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Dwarf"
+        self.blood = [RACE_DWARF]
         self.abilities = {"CON": 2, "WIS": 2, "CHA": -2}
         self.speed = 20
         self.darkvision = 60
         self.weapons = ["battleaxe", "heavy pick", "warhammer"]
         self.weaponGroups = ["dwarven"]
-        self.languages = ["common", "dwarven"]
+        self.languages.append("dwarven")
         self.additionalLanguages = ["giant", "gnome", "goblin", "orc", "terran", "undercommon"]
 
     def attack(self, enemy):
@@ -166,11 +206,12 @@ class Elf(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Elf"
+        self.blood = [RACE_ELF]
         self.abilities = {"DEX": 2, "INT": 2, "CON": -2}
         self.lowlight = 2
         self.weapons = ["longbow", "longsword", "rapier", "shortbow"]
         self.weaponGroups = ["elven"]
-        self.languages = ["common", "elven"]
+        self.languages.append("elven")
         self.additionalLanguages = ["celestial", "draconic", "gnoll", "gnome", "goblin", "orc", "sylvan"]
 
     def perception(self, stone=False):
@@ -198,13 +239,14 @@ class Gnome(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Gnome"
+        self.blood = [RACE_GNOME]
         self.abilities = {"CON": 2, "CHA": 2, "STR": -2}
         self.size = SIZE_SMALL
         self.speed = 20
         self.lowlight = 2
 
         self.weaponGroups = ["gnome"]
-        self.languages = ["common", "gnome", "sylvan"]
+        self.languages += ["gnome", "sylvan"]
         self.additionalLanguages = ["draconic", "dwarven", "elven", "giant", "goblin", "orc"]
 
     def attack(self, enemy):
@@ -231,5 +273,93 @@ class Gnome(Race):
     def skill(self, skillName, identify=False):
         mod = Race.skill(self, skillName, identify)
         if skillName in ("Perception", "Craft", "Profession"):
+            return 2 + mod
+        return mod
+
+class Halfelf(Human):
+    def __init__(self):
+        Race.__init__(self)
+        self.name = "Halfelf"
+        self.blood = [RACE_HALFELF, RACE_ELF, RACE_HUMAN]
+        self.lowlight = 2
+        self.feats = ["skillFocus"]
+        self.favouredClasses = 2
+
+        self.languages.append("elven")
+        self.anyLanguage = True
+
+        self.addFeat = 0
+        self.addSkill = 0
+
+    def perception(self, stone=False):
+        return 2
+
+    def spell(self, spellType=0):
+        if spellType == SPELL_SLEEP:
+            return None
+        if spellType == SPELL_ENCHANT:
+            return 2
+        return 0
+
+
+class Halforc(Human):
+    def __init__(self):
+        Race.__init__(self)
+        self.name = "Halforc"
+        self.blood = [RACE_HALFORC, RACE_ORC, RACE_HUMAN]
+        self.darkvision = 60
+
+        self.weapons = ["greataxe", "falchion"]
+        self.weaponGroups = ["orc"]
+        self.languages.append("orc")
+        self.additionalLanguages = ["abyssal", "draconic", "giant", "gnoll", "goblin"]
+
+        self.anyLanguage = False
+        self.addFeat = 0
+        self.addSkill = 0
+
+        self.ferocityDay = 1
+
+    def skill(self, skillName, identify=False):
+        mod = Race.skill(self, skillName, identify)
+        if skillName == "Intinidate":
+            return 2 + mod
+        return mod
+
+    def ferocity(selfi, hp=0, killed=False):
+        if hp >= 0:
+            return False
+        if killed:
+            return False
+        self.ferocityDay -= 1
+        return {"disabled": True, "round": 1, "after": {"unconscious": True, "dying": True}}
+
+
+class Halfling(Race):
+    def __init__(self):
+        Race.__init__(self)
+        self.name = "Halfling"
+        self.blood = [RACE_HALFLING]
+        self.abilities = {"DEX": 2, "CHA": 2, "STR": -2}
+        self.size = SIZE_SMALL
+        self.speed = 20
+
+        self.weapons = ["slings"]
+        self.weaponGroups = ["halfling"]
+        self.languages.append("halfling")
+        self.additionalLanguages = ["dwarven", "elven", "ginome", "goblin"]
+
+    def fear(self):
+        return 2
+
+    def savingThrow(self):
+        return 1
+
+    def perception(self, stone=False):
+        return 2
+
+    def skill(self, skillName, identify=False):
+        mod = Race.skill(self, skillName, identify)
+        if skillName in ("Acrobatics", "Climb"):
             return 2 + mod
         return mod

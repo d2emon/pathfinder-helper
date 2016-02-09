@@ -9,7 +9,7 @@ def showChar(char):
     print("Class:\t%s(%d)" % (char.charClass, char.level))
     print("Deity:\t", char.deity)
     print("Home:\t", char.homeland)
-    showRace(char.race)
+    showRace(char)
     print("Size:\t", char.size)
     print("Gender:\t", ["?", "M", "F"][char.gender])
     print("Age:\t", char.age)
@@ -28,8 +28,10 @@ def showAbilities(char):
         print("\t%s:\t%s" % (k, a))
 
 
-def showRace(race):
+def showRace(char):
+    race = char.race
     print("Race:\t", race.name)
+    print("\tVision: %s (Lowlight: %d, Darkvision: %d ft)" % (char.vision["normal"], char.vision["low"], char.vision["dark"]))
     print("\tAbilities: ", race.abilities)
     print("\tSize: ", race.size)
     print("\tSpeed: ", race.speed)

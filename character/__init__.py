@@ -20,6 +20,12 @@ STATS = {
     "CHA": {"class": abilities.Ability, "dices": 3},
 }
 
+VISION = {
+    "normal": True,
+    "dim": 1,
+    "dark": 0,
+}
+
 
 class Char():
     default = {
@@ -56,6 +62,7 @@ class Char():
 
     def __init__(self, **args):
         logging.debug("Args are: %s", args)
+        self.vision = args.get("vision", VISION.copy())
         for a in self.default:
             setattr(self, a, args.get(a, self.default[a]))
 
@@ -108,6 +115,12 @@ class Char():
             return
         for i, a in self.abilities.items():
             a.racialAdjustment = value.abilities.get(i, 0)
+
+        logging.debug(value)
+        logging.debug(value.lowlight)
+        logging.debug(self.vision)
+        self.vision["low"] = value.lowlight
+        self.vision["dark"] = value.darkvision
 
     cost = property(getCost)
     race = property(getRace, setRace)

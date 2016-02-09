@@ -7,8 +7,9 @@ import sys
 import yaml
 import character
 import abilities
-import charsheet
 import race
+import charclass
+import charsheet
 
 
 def defineAbility(count=1, method=abilities.ROLL_STANDARD, chars=[], pool=None):
@@ -35,6 +36,13 @@ def defineAbility(count=1, method=abilities.ROLL_STANDARD, chars=[], pool=None):
         print("-" * 80)
         charsheet.showChar(c)
     print("-" * 80)
+    print(charclass.SLOW)
+    print(charclass.NORMAL)
+    print(charclass.FAST)
+    for i in range(1, 11):
+        l = charclass.Level(i)
+        print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
+    print(charclass.xpToLevel(10000))
 
     return rooster
 

@@ -7,16 +7,18 @@ import logging
 
 
 def d(dices=1, sides=6, dropMin=0, modifier=0):
-    dices = [Dice(sides) for d in range(dices)]
-    logging.debug("You've rolled %s", dices)
+    rolls = [Dice(sides) for d in range(dices)]
+
+    rld = rolls[:]
+    mns = []
 
     for i in range(dropMin):
-        minDice = min(dices)
-        logging.debug("Removing minimal dice(%s)", minDice)
-        dices.remove(minDice)
+        minDice = min(rolls)
+        mns.append(minDice)
+        rolls.remove(minDice)
 
-    total = sum(d.result for d in dices) + modifier
-    logging.debug("Total dices is %d from %s plus %d", total, dices, modifier)
+    total = sum(d.result for d in rolls) + modifier
+    logging.debug("%dd%d = %s-%s+%d = %d", dices, sides, rld, mns, modifier, total)
     return total
 
 

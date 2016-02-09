@@ -5,37 +5,42 @@
 import dice
 
 
-def standard(count):
-    return [dice.d(4, 6, dropMin=1) for a in range(count)]
-
-
-def classic(count):
-    return [dice.d(3, 6) for a in range(count)]
-
-
-def heroic(count):
-    return [dice.d(2, 6, modifier=6) for a in range(count)]
-
+ROLL_STANDARD = {
+    "dices": 4,
+    "sides": 6,
+    "dropMin": 1
+}
+ROLL_CLASSIC = {
+    "dices": 3,
+    "sides": 6,
+}
+ROLL_HEROIC = {
+    "dices": 2,
+    "sides": 6,
+    "modifier": 6
+}
+ROLL_STANDARD = {
+    "dices": 4,
+    "sides": 6,
+    "dropMin": 1
+}
 
 def pool(dices):
-    return [dice.d(max(n, 3), 6) for n in dices]
-
-
-def purchase():
-    return 4
+    return dice.d(max(dices, 3), 6)
 
 
 class Ability():
     minValue = 3
     maxValue = 18
-    tempAdjustment = 0
 
     def __init__(self, value=None):
         self.value = value
+        self.tempAdjustment = 0
+        self.racialAdjuctment = 0
 
     @property
     def value(self):
-        return self.__value + self.tempAdjustment
+        return self.__value + self.racialAdjuctment + self.tempAdjustment
 
     @value.setter
     def value(self, value):
@@ -43,8 +48,6 @@ class Ability():
 
         if not self.isSet:
             value = 0
-        print(value)
-        print(int(value))
 
         if value < self.minValue:
             self.__value = self.minValue
@@ -67,6 +70,10 @@ class Ability():
 
     def getModifier(self):
         return int(self.value / 2) - 5
+
+    def roll(self, method=ROLL_STANDARD):
+       self.value = dice.d(**method)
+       return self.value
 
     def __str__(self):
         return "%s(%d)" % ([None, self.value][self.isSet], self.modifier)

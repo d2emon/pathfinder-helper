@@ -16,12 +16,38 @@ def defineAbility():
     with open("test.yml", "r") as f:
         data = yaml.load(f)
     print(data)
+    pool = {
+        "STR": 3,
+        "CON": 4,
+        "INT": 5,
+        "WIS": 6,
+    }
     chars = [
-        character.Char(name="Standard", stats=abilities.standard(count), raceId=race.RACE_DWARF),
-        character.Char(name="Classic", stats=abilities.standard(count), raceId=race.RACE_ELF),
-        character.Char(name="Heroic", stats=abilities.standard(count), raceId=race.RACE_GNOME),
-        character.Char(name="Pool", stats=abilities.standard(count), raceId=race.RACE_HALFELF),
-        character.Char(name="Pool", stats=abilities.pool([0, 3, 4, 5, 4, 3]), raceId=race.RACE_HALFORC),
+        character.Char(
+            name="Stnd",
+            rollMethod=abilities.ROLL_STANDARD,
+            raceId=race.RACE_DWARF,
+        ),
+        character.Char(
+            name="Clas",
+            rollMethod=abilities.ROLL_CLASSIC,
+            raceId=race.RACE_ELF,
+        ),
+        character.Char(
+            name="Hero",
+            rollMethod=abilities.ROLL_HEROIC,
+            raceId=race.RACE_GNOME,
+        ),
+        character.Char(
+            name="Pool",
+            rollPool=pool,
+            raceId=race.RACE_HALFELF,
+        ),
+        character.Char(
+            name="Pool",
+            rollPool=pool,
+            raceId=race.RACE_HALFLING,
+        ),
         character.Char(**data),
     ]
 

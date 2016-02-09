@@ -5,20 +5,21 @@
 import logging
 import abilities
 import race
+import dice
 
 
 GENDER_UNKNOWN = 0
 GENDER_MALE = 1
 GENDER_FEMALE = 2
 
-STATS = [
-    "STR",
-    "DEX",
-    "CON",
-    "INT",
-    "WIS",
-    "CHA",
-]
+STATS = {
+    "STR": {"class": abilities.Ability, "dices": 3},
+    "DEX": {"class": abilities.Ability, "dices": 3},
+    "CON": {"class": abilities.Ability, "dices": 3},
+    "INT": {"class": abilities.SpellAbility, "dices": 3},
+    "WIS": {"class": abilities.Ability, "dices": 3},
+    "CHA": {"class": abilities.Ability, "dices": 3},
+}
 
 
 class Char():
@@ -50,6 +51,8 @@ class Char():
         "cmd": 0,
         "weapons": [],
         "languages": [],
+
+        "rollMethod": abilities.ROLL_CLASSIC,
     }
 
     def __init__(self, **args):
@@ -57,17 +60,21 @@ class Char():
         for a in self.default:
             setattr(self, a, args.get(a, self.default[a]))
 
-        self.abilities = {
-            "STR": abilities.Ability(),
-            "DEX": abilities.Ability(),
-            "CON": abilities.Ability(),
-            "INT": abilities.SpellAbility(),
-            "WIS": abilities.Ability(),
-            "CHA": abilities.Ability(),
-        }
-        stats = args.get("stats", [])
+        self.abilities = dict()
+        rollPool = dict()
+        for s, d in STATS.items():
+            print(s, "::", d)
+            self.abilities[s] = d["class"]()
+            rollPool[s] = d["dices"]
+        if "rollPool" in args.keys():
+            rollPool = args["rollPool"]
+
+        stats = args.get("stats", None)
         logging.debug("Stats are: %s", stats)
-        if isinstance(stats, dict):
+        if stats is None:
+            self.roll(rollPool)
+            logging.debug("Stats are: %s", stats)
+        elif isinstance(stats, dict):
             self.fill(**stats)
         else:
             self.fill(*stats)
@@ -75,6 +82,9 @@ class Char():
         raceId = args.get("raceId", race.RACE_UNKNOWN)
         self.race = race.raceById(raceId)
         self.race.apply(self)
+
+    def roll(self, pool=None):
+        [a.roll(self.rollMethod) for a in self.abilities.values()]
 
     def fill(self, *stats, **named):
         logging.debug("Stats are: %s", stats)

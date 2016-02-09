@@ -36,11 +36,11 @@ class Ability():
     def __init__(self, value=None):
         self.value = value
         self.tempAdjustment = 0
-        self.racialAdjuctment = 0
+        self.racialAdjustment = 0
 
     @property
     def value(self):
-        return self.__value + self.racialAdjuctment + self.tempAdjustment
+        return self.__value + self.racialAdjustment + self.tempAdjustment
 
     @value.setter
     def value(self, value):
@@ -76,7 +76,7 @@ class Ability():
        return self.value
 
     def __str__(self):
-        return "%s(%d)" % ([None, self.value][self.isSet], self.modifier)
+        return "%s(%d)%s" % ([None, self.value][self.isSet], self.modifier, (self.__value, self.racialAdjustment, self.tempAdjustment))
 
     def __repr__(self):
         return self.__str__()
@@ -95,6 +95,6 @@ class SpellAbility(Ability):
         return self.value >= 10
 
     def __str__(self):
-        return "%s(%d):%s" % ([None, self.value][self.isSet], self.modifier, [None, self.spells][self.canSpell()])
+        return super(SpellAbility, self).__str__() + ":%s" % ([None, self.spells][self.canSpell()])
 
     spells = property(getSpells)

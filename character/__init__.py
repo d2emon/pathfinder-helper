@@ -5,7 +5,6 @@
 import logging
 import abilities
 import race
-import dice
 
 
 GENDER_UNKNOWN = 0
@@ -81,7 +80,6 @@ class Char():
 
         raceId = args.get("raceId", race.RACE_UNKNOWN)
         self.race = race.raceById(raceId)
-        self.race.apply(self)
 
     def roll(self, pool=None):
         [a.roll(self.rollMethod) for a in self.abilities.values()]
@@ -101,4 +99,15 @@ class Char():
         logging.debug("Character cost is %d(%s)", sum(stats), " + ".join([str(s) for s in stats]))
         return sum(stats)
 
+    def getRace(self):
+        return self.__race
+
+    def setRace(self, value):
+        self.__race = value
+        if value is None:
+            return
+        for i, a in self.abilities.items():
+            a.racialAdjustment = value.abilities.get(i, 0)
+
     cost = property(getCost)
+    race = property(getRace, setRace)

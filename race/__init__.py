@@ -233,6 +233,3 @@ class Gnome(Race):
         if skillName in ("Perception", "Craft", "Profession"):
             return 2 + mod
         return mod
-
-    # def overcome(self):
-        return 2

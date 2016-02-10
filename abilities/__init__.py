@@ -3,30 +3,7 @@
 
 
 import dice
-
-
-ROLL_STANDARD = {
-    "dices": 4,
-    "sides": 6,
-    "dropMin": 1
-}
-ROLL_CLASSIC = {
-    "dices": 3,
-    "sides": 6,
-}
-ROLL_HEROIC = {
-    "dices": 2,
-    "sides": 6,
-    "modifier": 6
-}
-ROLL_STANDARD = {
-    "dices": 4,
-    "sides": 6,
-    "dropMin": 1
-}
-
-def pool(dices):
-    return dice.d(max(dices, 3), 6)
+import ruleset
 
 
 class Ability():
@@ -71,7 +48,7 @@ class Ability():
     def getModifier(self):
         return int(self.value / 2) - 5
 
-    def roll(self, method=ROLL_STANDARD):
+    def roll(self, method=ruleset.Ruleset()):
        self.value = dice.d(**method)
        return self.value
 

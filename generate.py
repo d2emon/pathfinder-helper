@@ -5,14 +5,14 @@
 import logging
 import sys
 import yaml
+import ruleset
 import character
-import abilities
 import race
 import charclass
 import charsheet
 
 
-def defineAbility(count=1, method=abilities.ROLL_STANDARD, chars=[], pool=None):
+def defineAbility(count=1, rules=ruleset.Ruleset(), chars=[], pool=None):
     count -= len(chars)
     rooster = []
 
@@ -21,12 +21,12 @@ def defineAbility(count=1, method=abilities.ROLL_STANDARD, chars=[], pool=None):
     for c in chars:
         rooster.append(character.Char(**c))
     logging.debug("%d character(s) left", count)
-    logging.debug(method)
+    logging.debug(rules)
 
     i = race.RACE_UNKNOWN
     rooster += [character.Char(
         name="Character %d" % (c),
-        rollMethod=method,
+        ruleset=rules,
         raceId=i + c + 1,
         dicePool=pool
     ) for c in range(count)]
@@ -36,19 +36,13 @@ def defineAbility(count=1, method=abilities.ROLL_STANDARD, chars=[], pool=None):
         print("-" * 80)
         charsheet.showChar(c)
     print("-" * 80)
-    print(charclass.SLOW)
-    print(charclass.NORMAL)
-    print(charclass.FAST)
     for i in range(1, 11):
-        l = charclass.Level(i)
+        l = charclass.Level(i, rules)
         print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
-    print(charclass.xpToLevel(10000))
+    l = charclass.xpToLevel(10000, rules)
+    print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
 
     return rooster
-
-
-def pickRace():
-    print("Pick Your Race")
 
 
 def pickClass():
@@ -82,7 +76,7 @@ def main(argv):
 
     logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
     count = 1
-    method = abilities.ROLL_STANDARD
+    rules = ruleset.Ruleset()
     chars = []
     for opt, arg in opts:
         if opt in ("-h", "--help"):
@@ -97,11 +91,11 @@ def main(argv):
             count = int(arg)
         elif opt in ("-r", "--roll"):
             methods = {
-                "standard": abilities.ROLL_STANDARD,
-                "classic": abilities.ROLL_CLASSIC,
-                "heroic": abilities.ROLL_HEROIC,
+                "standard": ruleset.roll.STANDARD,
+                "classic": ruleset.roll.CLASSIC,
+                "heroic": ruleset.roll.HEROIC,
             }
-            method = methods[arg]
+            rules.rollMethod = methods[arg]
         elif opt in ("-f", "--file"):
             with open(arg, "r") as f:
                 chars = yaml.load(f)
@@ -109,8 +103,7 @@ def main(argv):
     logging.basicConfig(**logconfig)
     logging.info("Starting generator")
 
-    chars = defineAbility(count=count, method=method, chars=chars)
-    pickRace()
+    chars = defineAbility(count=count, rules=rules, chars=chars)
     pickClass()
     pickSkills()
     buyEquipment()

@@ -3,6 +3,7 @@
 
 
 import logging
+import ruleset
 import abilities
 import race
 
@@ -22,7 +23,7 @@ STATS = {
 
 VISION = {
     "normal": True,
-    "dim": 1,
+    "low": 1,
     "dark": 0,
 }
 
@@ -57,7 +58,7 @@ class Char():
         "weapons": [],
         "languages": [],
 
-        "rollMethod": abilities.ROLL_CLASSIC,
+        "ruleset": ruleset.Ruleset(),
     }
 
     def __init__(self, **args):
@@ -89,7 +90,7 @@ class Char():
         self.race = race.raceById(raceId)
 
     def roll(self, pool=None):
-        [a.roll(self.rollMethod) for a in self.abilities.values()]
+        [a.roll(self.ruleset.rollMethod) for a in self.abilities.values()]
 
     def fill(self, *stats, **named):
         logging.debug("Stats are: %s", stats)

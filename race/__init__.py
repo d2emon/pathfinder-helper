@@ -24,40 +24,25 @@ SPELL_SLEEP = 1
 SPELL_ENCHANT = 2
 SPELL_ILLUSION = 3
 
-RACE_UNKNOWN = 0
-RACE_HUMAN = 1
-RACE_DWARF = 2
-RACE_ELF = 3
-RACE_GNOME = 4
-RACE_HALFELF = 5
-RACE_HALFORC = 6
-RACE_HALFLING = 7
-RACE_ORC = 8
+UNKNOWN_ID = 0
+HUMAN_ID = 1
+DWARF_ID = 2
+ELF_ID = 3
+GNOME_ID = 4
+HALFELF_ID = 5
+HALFORC_ID = 6
+HALFLING_ID = 7
+ORC_ID = 8
 
 
 def raceById(id):
-    if id == RACE_HUMAN:
-        return Human()
-    elif id == RACE_DWARF:
-        return Dwarf()
-    elif id == RACE_ELF:
-        return Elf()
-    elif id == RACE_GNOME:
-        return Gnome()
-    elif id == RACE_HALFELF:
-        return Halfelf()
-    elif id == RACE_HALFORC:
-        return Halforc()
-    elif id == RACE_HALFLING:
-        return Halfling()
-    else:
-        return Race()
+    return RACES.get(id, Race)()
 
 
 class Race():
     def __init__(self):
         self.name = "Unknown"
-        self.blood = RACE_UNKNOWN
+        self.blood = UNKNOWN_ID
         self.abilities = dict()
         self.randAbility = []
         self.size = SIZE_MEDIUM
@@ -121,7 +106,6 @@ class Race():
     def fear(self):
         return 0
 
-
     def savingThrow(self):
         return 0
 
@@ -130,7 +114,7 @@ class Human(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Human"
-        self.blood = [RACE_HUMAN]
+        self.blood = [HUMAN_ID]
         self.randAbility = [2]
 
         self.addFeat = 1
@@ -153,7 +137,7 @@ class Dwarf(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Dwarf"
-        self.blood = [RACE_DWARF]
+        self.blood = [DWARF_ID]
         self.abilities = {"CON": 2, "WIS": 2, "CHA": -2}
         self.speed = 20
         self.darkvision = 60
@@ -206,7 +190,7 @@ class Elf(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Elf"
-        self.blood = [RACE_ELF]
+        self.blood = [ELF_ID]
         self.abilities = {"DEX": 2, "INT": 2, "CON": -2}
         self.lowlight = 2
         self.weapons = ["longbow", "longsword", "rapier", "shortbow"]
@@ -239,7 +223,7 @@ class Gnome(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Gnome"
-        self.blood = [RACE_GNOME]
+        self.blood = [GNOME_ID]
         self.abilities = {"CON": 2, "CHA": 2, "STR": -2}
         self.size = SIZE_SMALL
         self.speed = 20
@@ -276,11 +260,12 @@ class Gnome(Race):
             return 2 + mod
         return mod
 
+
 class Halfelf(Human):
     def __init__(self):
         Race.__init__(self)
         self.name = "Halfelf"
-        self.blood = [RACE_HALFELF, RACE_ELF, RACE_HUMAN]
+        self.blood = [HALFELF_ID, ELF_ID, HUMAN_ID]
         self.lowlight = 2
         self.feats = ["skillFocus"]
         self.favouredClasses = 2
@@ -306,7 +291,7 @@ class Halforc(Human):
     def __init__(self):
         Race.__init__(self)
         self.name = "Halforc"
-        self.blood = [RACE_HALFORC, RACE_ORC, RACE_HUMAN]
+        self.blood = [HALFORC_ID, ORC_ID, HUMAN_ID]
         self.darkvision = 60
 
         self.weapons = ["greataxe", "falchion"]
@@ -326,7 +311,7 @@ class Halforc(Human):
             return 2 + mod
         return mod
 
-    def ferocity(selfi, hp=0, killed=False):
+    def ferocity(self, hp=0, killed=False):
         if hp >= 0:
             return False
         if killed:
@@ -339,7 +324,7 @@ class Halfling(Race):
     def __init__(self):
         Race.__init__(self)
         self.name = "Halfling"
-        self.blood = [RACE_HALFLING]
+        self.blood = [HALFLING_ID]
         self.abilities = {"DEX": 2, "CHA": 2, "STR": -2}
         self.size = SIZE_SMALL
         self.speed = 20
@@ -363,3 +348,14 @@ class Halfling(Race):
         if skillName in ("Acrobatics", "Climb"):
             return 2 + mod
         return mod
+
+
+RACES = {
+    HUMAN_ID: Human,
+    DWARF_ID: Dwarf,
+    ELF_ID: Elf,
+    GNOME_ID: Gnome,
+    HALFELF_ID: Halfelf,
+    HALFORC_ID: Halforc,
+    HALFLING_ID: Halfling,
+}

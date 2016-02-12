@@ -2,7 +2,10 @@
 # -*- coding:utf-8 -*-
 
 
+import logging
 import ruleset
+import charclass
+import charclass.fighter
 
 
 class Level():
@@ -31,3 +34,16 @@ def xpToLevel(xp, ruleset=ruleset.Ruleset()):
     for l, tolup in enumerate(ruleset.levelUp):
         if xp < tolup:
             return Level(l, ruleset)
+
+
+UNKNOWN_ID = 0
+
+
+def classById(id):
+    logging.debug("classesById %s", CLASSES)
+    return CLASSES.get(id, charclass.CharClass)()
+
+
+CLASSES = {
+    charclass.fighter.BRB_ID: charclass.fighter.Barbarian(),
+}

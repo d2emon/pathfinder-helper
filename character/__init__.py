@@ -6,11 +6,10 @@ import logging
 import ruleset
 import abilities
 import race
+import charclass
 
+import character.gender
 
-GENDER_UNKNOWN = 0
-GENDER_MALE = 1
-GENDER_FEMALE = 2
 
 STATS = {
     "STR": {"class": abilities.Ability, "dices": 3},
@@ -34,12 +33,13 @@ class Char():
         "player": "Unknown",
         "alignment": None,
         "race": None,
-        "charClass": None,
+        "charClass": [None],
+        "favClass": [],
         "level": 0,
         "deity": "Unknown",
         "homeland": "Homeland",
         "size": 0,
-        "gender": GENDER_UNKNOWN,
+        "gender": character.gender.UNKNOWN_ID,
         "age": 0,
         "height": 0,
         "weight": 0,
@@ -86,8 +86,11 @@ class Char():
         else:
             self.fill(*stats)
 
-        raceId = args.get("raceId", race.RACE_UNKNOWN)
+        raceId = args.get("raceId", race.UNKNOWN_ID)
         self.race = race.raceById(raceId)
+
+        classId = args.get("classId", charclass.UNKNOWN_ID)
+        self.charclass = charclass.classById(classId)
 
     def roll(self, pool=None):
         [a.roll(self.ruleset.rollMethod) for a in self.abilities.values()]
@@ -117,11 +120,23 @@ class Char():
         for i, a in self.abilities.items():
             a.racialAdjustment = value.abilities.get(i, 0)
 
-        logging.debug(value)
-        logging.debug(value.lowlight)
-        logging.debug(self.vision)
+        logging.debug("V:%s", value)
+        logging.debug("Vl:%s", value.lowlight)
+        logging.debug("Vv:%s", self.vision)
         self.vision["low"] = value.lowlight
         self.vision["dark"] = value.darkvision
 
+    def getCharClass(self):
+        return self.__charClass
+
+    def setCharClass(self, value):
+        self.__charClass = value
+        if value is None:
+            return
+
+        logging.debug("V:%s", value)
+        logging.debug("Vv:%s", self.vision)
+
     cost = property(getCost)
     race = property(getRace, setRace)
+    charClass = property(getCharClass, setCharClass)

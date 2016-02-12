@@ -5,34 +5,51 @@
 import logging
 import sys
 import yaml
+
 import ruleset
-import character
 import race
-import charclass
+
+
 import charsheet
+import character.rooster
+import charclass
 
 
-def defineAbility(count=1, rules=ruleset.Ruleset(), chars=[], pool=None):
-    count -= len(chars)
-    rooster = []
+def pickRace(chars=[], races=[]):
+    logging.info("Pick Your Race")
+    races = list(races) + [race.UNKNOWN_ID] * (len(chars) - len(races))
+    for i, c in enumerate(chars):
+        c.race = race.raceById(races[i])
 
-    logging.info("Determine Ability Scores")
-    logging.debug("Loading %s", chars)
-    for c in chars:
-        rooster.append(character.Char(**c))
-    logging.debug("%d character(s) left", count)
-    logging.debug(rules)
 
-    i = race.RACE_UNKNOWN
-    rooster += [character.Char(
-        name="Character %d" % (c),
-        ruleset=rules,
-        raceId=i + c + 1,
-        dicePool=pool
-    ) for c in range(count)]
+def pickClass(chars=[], classes=[]):
+    # TODO: Pick Class
+    logging.info("Pick Your Class")
 
-    logging.debug(rooster)
-    for c in rooster:
+
+def pickSkills():
+    # TODO: Pick Skills
+    print("Pick Skills and Select Feats")
+
+
+def buyEquipment():
+    # TODO: Buy Equipment
+    print("Buy Equipment")
+
+
+def finishDetails():
+    # TODO: Finish details
+    print("Finishing Details")
+
+
+def helpMessage():
+    # TODO: Help message
+    print("Help!")
+
+
+def createChars(rooster=character.rooster.Rooster(), rules=ruleset.ruleset.Ruleset()):
+    logging.debug("generate.createChars():Rooster %s", rooster)
+    for c in rooster.chars:
         print("-" * 80)
         charsheet.showChar(c)
     print("-" * 80)
@@ -43,27 +60,6 @@ def defineAbility(count=1, rules=ruleset.Ruleset(), chars=[], pool=None):
     print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
 
     return rooster
-
-
-def pickClass():
-    print("Pick Your Class")
-
-
-def pickSkills():
-    print("Pick Skills and Select Feats")
-
-
-def buyEquipment():
-    print("Buy Equipment")
-
-
-def finishDetails():
-    print("Finishing Details")
-
-
-def helpMessage():
-    # TODO: Help message
-    print("Help!")
 
 
 def main(argv):
@@ -99,15 +95,21 @@ def main(argv):
         elif opt in ("-f", "--file"):
             with open(arg, "r") as f:
                 chars = yaml.load(f)
+    count -= len(chars)
 
     logging.basicConfig(**logconfig)
     logging.info("Starting generator")
+    logging.debug("generate:Chars %s", chars)
 
-    chars = defineAbility(count=count, rules=rules, chars=chars)
-    pickClass()
+    rooster = character.rooster.Rooster()
+    rooster.add(count=count)
+    pickRace(rooster.chars, races=race.RACES.keys())
+    pickClass(rooster.chars, classes=[])
     pickSkills()
     buyEquipment()
     finishDetails()
+    rooster.load(chars)
+    createChars(rooster)
 
 
 if __name__ == "__main__":

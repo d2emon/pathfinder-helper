@@ -6,7 +6,7 @@ def showChar(char):
     print("Name:\t", char.name)
     print("Align:\t", char.alignment)
     print("Player:\t", char.player)
-    print("Class:\t%s(%d)" % (char.charClass, char.level))
+    print("Class:\t%s(%d) - %s" % (char.charClass, char.level, char.favClass))
     print("Deity:\t", char.deity)
     print("Home:\t", char.homeland)
     showRace(char)

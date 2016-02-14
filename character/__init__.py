@@ -63,7 +63,9 @@ class Char():
 
     def __init__(self, **args):
         logging.debug("Args are: %s", args)
+
         self.vision = args.get("vision", VISION.copy())
+
         for a in self.default:
             setattr(self, a, args.get(a, self.default[a]))
 

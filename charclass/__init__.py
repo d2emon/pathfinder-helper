@@ -2,9 +2,8 @@
 # -*- coding:utf-8 -*-
 
 
-import logging
 import ruleset
-import charclass
+import charclass.baseclass
 import charclass.fighter
 
 
@@ -40,8 +39,7 @@ UNKNOWN_ID = 0
 
 
 def classById(id):
-    logging.debug("classesById %s", CLASSES)
-    return CLASSES.get(id, charclass.CharClass)()
+    return CLASSES.get(id, charclass.baseclass.CharClass)()
 
 
 CLASSES = {

@@ -16,8 +16,3 @@ HEROIC = {
     "sides": 6,
     "modifier": 6
 }
-STANDARD = {
-    "dices": 4,
-    "sides": 6,
-    "dropMin": 1
-}

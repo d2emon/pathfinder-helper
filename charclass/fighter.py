@@ -2,16 +2,15 @@
 # -*- coding:utf-8 -*-
 
 
-import charclass
-import charclass.charclass
+import charclass.baseclass
 
 BRB_ID = 101
 
-print(charclass.charclass)
-print(dir(charclass.charclass))
+print(charclass.baseclass)
+print(dir(charclass.baseclass))
 
 
-class Barbarian(charclass.charclass.CharClass):
+class Barbarian(charclass.baseclass.CharClass):
     def __init__(self):
         self.alignments = [(x, y) for x in range(-1, 0) for y in range(-1, 1)]
         self.hd = (1, 12)

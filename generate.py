@@ -4,9 +4,10 @@
 
 import logging
 import sys
-import yaml
 import random
 
+import gui
+import gui.commandline
 import ruleset
 import race
 
@@ -40,13 +41,6 @@ def finishDetails(chars=[]):
     return []
 
 
-def helpMessage():
-    import sys
-    # TODO: Help message
-    print("Help!")
-    sys.exit(0)
-
-
 def createChars(rooster=character.rooster.Rooster()):
     logging.debug("generate.createChars():Rooster %s", rooster)
     for c in rooster.chars:
@@ -62,68 +56,39 @@ def createChars(rooster=character.rooster.Rooster()):
     return rooster
 
 
-def parseArgs(argv):
-    import getopt
-
-    opts, args = getopt.getopt(argv, "hdl:c:r:f:", ["help", "debug", "logfile=", "count", "roll=", "file=", "logformat="])
-
-    logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
-    options = dict()
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            raise getopt.GetoptError("")
-        elif opt in ("-d", "--debug"):
-            logconfig["level"] = logging.DEBUG
-        elif opt in ("-l", "--logfile"):
-            logconfig["filename"] = arg
-        elif opt in ("--logformat"):
-            logconfig["format"] = arg
-        elif opt in ("-c", "--count"):
-            options["count"] = int(arg)
-        elif opt in ("-r", "--roll"):
-            methods = {
-                "standard": ruleset.roll.STANDARD,
-                "classic": ruleset.roll.CLASSIC,
-                "heroic": ruleset.roll.HEROIC,
-            }
-            ruleset.rules.rollMethod = methods[arg]
-        elif opt in ("-f", "--file"):
-            with open(arg, "r") as f:
-                options["chars"] = yaml.load(f)
-
-    logging.basicConfig(**logconfig)
-    return options
-
-
 def main(argv):  # pragma: no cover
     import getopt
 
     try:
-        parsed = parseArgs(argv)
+        parsed = gui.commandline.parseArgs(argv)
     except(getopt.GetoptError):
         parsed = dict()
-        helpMessage()
-
-    chars = parsed.get("chars", [])
-    count = parsed.get("count", 1) - len(chars)
-
+        gui.helpMessage()
     logging.info("Starting generator")
-    logging.debug("generate:Chars %s", chars)
+
+    ruleset.rules.rollMethod = parsed.get("rollMethod", gui.askRollMethod())
+    filename = parsed.get("filename", None)
+    count = parsed.get("count", None)
+    if count is None:
+        count = gui.askCharsCount()
 
     rooster = character.rooster.Rooster()
+    rooster.load(filename)
     rooster.add(count=count)
     rooster.defineAbility()
-    logging.info("Pick Your Race")
+
     races = [random.choice(list(race.RACES.keys())) for i in rooster.chars]
-    rooster.pickRace(races)
     classes = [random.choice(list(charclass.CLASSES.keys())) for i in rooster.chars]
+
+    logging.info("Pick Your Race")
+    rooster.pickRace(races)
+    logging.info("Pick Your Class")
     rooster.pickClass(classes)
 
     pickClass(rooster.chars, classes=[])
     pickSkills()
     buyEquipment()
     finishDetails()
-    rooster.load(chars)
     createChars(rooster)
 
 

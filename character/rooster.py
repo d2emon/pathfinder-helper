@@ -3,6 +3,7 @@
 
 
 import logging
+import yaml
 
 import character
 
@@ -16,16 +17,21 @@ class Rooster():
         self.chars = []
 
     def add(self, count=1, data=[], **default):
+
         charData = self.default.copy()
         charData.update(default)
         data = list(data) + [charData for i in range(len(data), count)]
 
+        logging.debug("Loading: %s", data)
         [self.chars.append(character.Char(**d)) for d in data]
         return self.chars
 
-    def load(self, chars=[]):
-        logging.debug("Rooster.load: %s", chars)
-        [self.chars.append(character.Char(**c)) for c in chars]
+    def load(self, filename=None):
+        if filename is None:
+            return self.chars
+
+        with open(filename) as f:
+            self.add(data=yaml.load(f))
         return self.chars
 
     def defineAbility(self, pool=None):

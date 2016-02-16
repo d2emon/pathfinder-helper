@@ -33,9 +33,7 @@ class Char():
         "player": "Unknown",
         "alignment": None,
         "race": None,
-        "charClass": [None],
         "favClass": [],
-        "level": 0,
         "deity": "Unknown",
         "homeland": "Homeland",
         "size": 0,
@@ -57,55 +55,56 @@ class Char():
         "cmd": 0,
         "weapons": [],
         "languages": [],
-
-        "ruleset": ruleset.Ruleset(),
     }
 
     def __init__(self, **args):
-        logging.debug("Args are: %s", args)
+        logging.debug("Character data are: %s", args)
 
+        self.abilities = {s: d["class"]() for  s, d in STATS.items()}
         self.vision = args.get("vision", VISION.copy())
+        self.resetClasses()
 
         for a in self.default:
             setattr(self, a, args.get(a, self.default[a]))
 
-        self.abilities = dict()
-        rollPool = dict()
-        for s, d in STATS.items():
-            print(s, "::", d)
-            self.abilities[s] = d["class"]()
-            rollPool[s] = d["dices"]
-        if "rollPool" in args.keys():
-            rollPool = args["rollPool"]
 
-        stats = args.get("stats", None)
+        stats = args.get("stats", dict())
         logging.debug("Stats are: %s", stats)
-        if stats is None:
-            self.roll(rollPool)
-            logging.debug("Stats are: %s", stats)
-        elif isinstance(stats, dict):
-            self.fill(**stats)
-        else:
-            self.fill(*stats)
+        self.fill(**stats)
 
-        raceId = args.get("raceId", race.UNKNOWN_ID)
-        self.race = race.raceById(raceId)
+        # rollPool = args.get("rollPool", None)
+        # if rollPool is None:
+        #     rollPool = {s: d["dices"] for s, d in STATS.items()}
+        # self.roll(rollPool)
 
-        classId = args.get("classId", charclass.UNKNOWN_ID)
-        self.charclass = charclass.classById(classId)
+        self.raceById(args.get("raceId", race.UNKNOWN_ID))
+        self.classById(args.get("classId", charclass.UNSET_ID))
 
     def roll(self, pool=None):
-        [a.roll(self.ruleset.rollMethod) for a in self.abilities.values()]
+        [ruleset.rules.rollAbility(a, pool) for a in self.abilities.values()]
 
-    def fill(self, *stats, **named):
-        logging.debug("Stats are: %s", stats)
-        st = list(stats)
-        st += [0] * (len(self.abilities) - len(st))
-        logging.debug("Stats are: %s", st)
-
-        for i, a in enumerate(self.abilities.keys()):
-            self.abilities[a].value = named.get(a, st[i])
+    def fill(self, **named):
+        for i, a in enumerate(named):
+            self.abilities[a].value = named[a]
         logging.debug("Abilities are: %s", self.abilities)
+
+    def raceById(self, id):
+        r = race.raceById(id)
+        logging.debug(r.name)
+        self.race = r
+        return r
+
+    def classById(self, id, level=1):
+        if id == charclass.UNSET_ID:
+            return None
+        c = charclass.classById(id)
+        logging.debug(c.name)
+        favoured = c.id in self.favClass
+        self.charClass[c.id] = {"class": c, "level": level, "favoured": favoured}
+        return c
+
+    def resetClasses(self):
+        self.charClass = dict()
 
     def getCost(self):
         stats = [s.cost for s in self.abilities.values()]
@@ -116,17 +115,28 @@ class Char():
         return self.__race
 
     def setRace(self, value):
-        self.__race = value
         if value is None:
-            return
+            value = race.Race()
+
+        self.__race = value
         for i, a in self.abilities.items():
             a.racialAdjustment = value.abilities.get(i, 0)
 
-        logging.debug("V:%s", value)
-        logging.debug("Vl:%s", value.lowlight)
-        logging.debug("Vv:%s", self.vision)
+        logging.debug("Race Vv:%s", self.vision)
         self.vision["low"] = value.lowlight
         self.vision["dark"] = value.darkvision
+        logging.debug("Race Vv:%s", self.vision)
+
+    def getFavClass(self):
+        return self.__favClass
+
+    def setFavClass(self, value):
+        if value is None:
+            return
+
+        maxClasses = self.race.favouredClasses - 1
+        del value[:maxClasses]
+        self.__favClass = value
 
     def getCharClass(self):
         return self.__charClass

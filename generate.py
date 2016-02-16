@@ -5,6 +5,7 @@
 import logging
 import sys
 import yaml
+import random
 
 import ruleset
 import race
@@ -13,14 +14,6 @@ import race
 import charsheet
 import character.rooster
 import charclass
-
-
-def pickRace(chars=[], races=[]):
-    logging.info("Pick Your Race")
-    races = list(races) + [race.UNKNOWN_ID] * (len(chars) - len(races))
-    for i, c in enumerate(chars):
-        c.race = race.raceById(races[i])
-    return []
 
 
 def pickClass(chars=[], classes=[]):
@@ -54,16 +47,16 @@ def helpMessage():
     sys.exit(0)
 
 
-def createChars(rooster=character.rooster.Rooster(), rules=ruleset.ruleset.Ruleset()):
+def createChars(rooster=character.rooster.Rooster()):
     logging.debug("generate.createChars():Rooster %s", rooster)
     for c in rooster.chars:
         print("-" * 80)
         charsheet.showChar(c)
     print("-" * 80)
     for i in range(1, 11):
-        l = charclass.Level(i, rules)
+        l = charclass.Level(i)
         print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
-    l = charclass.xpToLevel(10000, rules)
+    l = charclass.xpToLevel(10000)
     print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
 
     return rooster
@@ -75,10 +68,7 @@ def parseArgs(argv):
     opts, args = getopt.getopt(argv, "hdl:c:r:f:", ["help", "debug", "logfile=", "count", "roll=", "file=", "logformat="])
 
     logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
-    options = {
-        "rules": ruleset.Ruleset(),
-    }
-    print(opts, args)
+    options = dict()
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             raise getopt.GetoptError("")
@@ -96,7 +86,7 @@ def parseArgs(argv):
                 "classic": ruleset.roll.CLASSIC,
                 "heroic": ruleset.roll.HEROIC,
             }
-            options["rules"].rollMethod = methods[arg]
+            ruleset.rules.rollMethod = methods[arg]
         elif opt in ("-f", "--file"):
             with open(arg, "r") as f:
                 options["chars"] = yaml.load(f)
@@ -122,7 +112,13 @@ def main(argv):  # pragma: no cover
 
     rooster = character.rooster.Rooster()
     rooster.add(count=count)
-    pickRace(rooster.chars, races=race.RACES.keys())
+    rooster.defineAbility()
+    logging.info("Pick Your Race")
+    races = [random.choice(list(race.RACES.keys())) for i in rooster.chars]
+    rooster.pickRace(races)
+    classes = [random.choice(list(charclass.CLASSES.keys())) for i in rooster.chars]
+    rooster.pickClass(classes)
+
     pickClass(rooster.chars, classes=[])
     pickSkills()
     buyEquipment()

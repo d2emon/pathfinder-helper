@@ -8,12 +8,11 @@ import charclass.fighter
 
 
 class Level():
-    def __init__(self, level=0, ruleset=ruleset.Ruleset()):
+    def __init__(self, level=0):
         self.level = level
-        self.ruleset = ruleset
 
     def toNext(self):
-        return self.ruleset.levelUp[self.level]
+        return ruleset.rules.levelUp[self.level]
 
     def getFeat(self):
         return (self.level % 2) == 1
@@ -29,12 +28,13 @@ class Level():
     ability = property(getAbility)
 
 
-def xpToLevel(xp, ruleset=ruleset.Ruleset()):
-    for l, tolup in enumerate(ruleset.levelUp):
+def xpToLevel(xp):
+    for l, tolup in enumerate(ruleset.rules.levelUp):
         if xp < tolup:
-            return Level(l, ruleset)
+            return Level(l)
 
 
+UNSET_ID = -1
 UNKNOWN_ID = 0
 
 
@@ -43,5 +43,5 @@ def classById(id):
 
 
 CLASSES = {
-    charclass.fighter.BRB_ID: charclass.fighter.Barbarian(),
+    charclass.fighter.BRB_ID: charclass.fighter.Barbarian,
 }

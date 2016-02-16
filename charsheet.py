@@ -6,7 +6,7 @@ def showChar(char):
     print("Name:\t", char.name)
     print("Align:\t", char.alignment)
     print("Player:\t", char.player)
-    print("Class:\t%s(%d) - %s" % (char.charClass, char.level, char.favClass))
+    showClass(char)
     print("Deity:\t", char.deity)
     print("Home:\t", char.homeland)
     showRace(char)
@@ -30,7 +30,7 @@ def showAbilities(char):
 
 def showRace(char):
     race = char.race
-    print("Race:\t", race.name)
+    print("Race:\t%s" % (race.name))
     print("\tVision: %s (Lowlight: %d, Darkvision: %d ft)" % (char.vision["normal"], char.vision["low"], char.vision["dark"]))
     print("\tAbilities: ", race.abilities)
     print("\tSize: ", race.size)
@@ -39,3 +39,9 @@ def showRace(char):
     print("\tDarkvision: ", race.darkvision)
     print("\tWeapons: ", race.weapons, race.weaponGroups)
     print("\tLanguages: ", race.languages, race.additionalLanguages)
+
+
+def showClass(char):
+    print("Classes:\t")
+    for c in char.charClass.values():
+        print("\t%s(%d)%s" % (c["class"].name, c["level"], ["", "*"][c["favoured"]]))

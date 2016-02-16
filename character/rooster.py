@@ -9,16 +9,11 @@ import character
 
 class Rooster():
     def __init__(self, **args):
-        import ruleset
-
         self.chars = args.get("chars", [])
         self.default = args.get("default", dict())
-        if "ruleset" not in self.default.keys():
-            self.default["ruleset"] = ruleset.Ruleset()
 
     def empty(self):
         self.chars = []
-
 
     def add(self, count=1, data=[], **default):
         charData = self.default.copy()
@@ -33,6 +28,29 @@ class Rooster():
         [self.chars.append(character.Char(**c)) for c in chars]
         return self.chars
 
-    def defineAbility(self, count=1, pool=None):
+    def defineAbility(self, pool=None):
         logging.info("Determine Ability Scores")
-        logging.debug("Rooster.defineAbility:Rules %s", self.default["ruleset"])
+        logging.debug("Rooster.defineAbility:Rules")
+        for c in self.chars:
+            logging.debug("%s's abilities", c.name)
+            c.roll(pool)
+        return self
+
+    def pickRace(self, races=[]):
+        for i, c in enumerate(self.chars):
+            if i < len(races):
+                raceId = races[i]
+            else:
+                raceId = i
+            c.raceById(raceId)
+            logging.debug("%s's race is %s(%d)", c.name, c.race.name, raceId)
+
+    def pickClass(self, classes=[]):
+        for i, c in enumerate(self.chars):
+            if i < len(classes):
+                classId = classes[i]
+            else:
+                classId = i
+            c.favClass.append(classId)
+            cl = c.classById(classId)
+            logging.debug("%s's class is %s(%d)", c.name, cl.name, classId)

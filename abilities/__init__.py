@@ -2,10 +2,6 @@
 # -*- coding:utf-8 -*-
 
 
-import dice
-import ruleset
-
-
 class Ability():
     minValue = 3
     maxValue = 18
@@ -48,12 +44,8 @@ class Ability():
     def getModifier(self):
         return int(self.value / 2) - 5
 
-    def roll(self, method=ruleset.Ruleset()):
-       self.value = dice.d(**method)
-       return self.value
-
     def __str__(self):
-        return "%s(%d)%s" % ([None, self.value][self.isSet], self.modifier, (self.__value, self.racialAdjustment, self.tempAdjustment))
+        return "%s(%d)%s" % (["Not set", self.value][self.isSet], self.modifier, (self.__value, self.racialAdjustment, self.tempAdjustment))
 
     def __repr__(self):
         return self.__str__()
@@ -72,6 +64,6 @@ class SpellAbility(Ability):
         return self.value >= 10
 
     def __str__(self):
-        return super(SpellAbility, self).__str__() + ":%s" % ([None, self.spells][self.canSpell()])
+        return super(SpellAbility, self).__str__() + ":%s" % (["-", self.spells][self.canSpell()])
 
     spells = property(getSpells)

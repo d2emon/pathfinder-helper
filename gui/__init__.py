@@ -18,6 +18,26 @@ def askCharsCount():
     return c
 
 
+def askHours():
+    """
+    Asking of hours spent
+    """
+    try:
+        h = int(input("How much hours spent?\t"))
+        return h
+    except (ValueError):
+        return 0
+
+
+def askYN(prompt="Continue?"):
+    """
+    Asking of yes or no
+    """
+    a = input("%s(y/N)\t" % (prompt))
+    a.rsplit()
+    return a in ["y", "yes"]
+
+
 def askRollMethod():
     """
     Asking for roll method

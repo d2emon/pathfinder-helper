@@ -5,7 +5,7 @@
 import gui
 
 
-def showMenu(title="", items=[], func=None):
+def showMenu(title="", items=[], func=None, args=dict()):
     """
     Showing menu
     """
@@ -17,10 +17,11 @@ def showMenu(title="", items=[], func=None):
         print("0.\tExit")
         try:
             res = int(input("Enter your choice:\t")) - 1
+            print("-" * 80)
             if res < 0:
                 gui.bye()
             if func is not None:
-                return func(res)
+                return func(res, **args)
             else:
                 return res
         except (ValueError):

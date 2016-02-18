@@ -2,13 +2,13 @@
 # -*- coding:utf-8 -*-
 
 
-import sys
 import logging
 
 import gui
 import gui.commandline
 import generate
 import encounter
+import adventure
 
 
 PATHFINDER = [
@@ -121,6 +121,30 @@ DND1 = [
 ]
 
 
+EGP = [
+    {"title": "Adventure", "action": adventure.main},
+    {"title": "Art Object"},
+    {"title": "Attribute"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+    {"title": "Adventure"},
+]
+
+
 def pathfinder(id):
     r = gui.menu.showMenu(items=PATHFINDER)
     print(r)
@@ -144,37 +168,68 @@ def cyclo(id):
     return id
 
 
+def egpAction(actionId):
+    a = EGP[actionId].get("action", None)
+    if a is not None:
+        return a(actionId)
+    return actionId
+
+
+def egp(id):
+    logging.debug("EGP #%d", id)
+    r = gui.menu.showMenu(items=[e["title"] for e in EGP], func=egpAction)
+    print(r)
+    return id
+
+
 UNITS = [
     {"title": "Generator", "action": generate.main},
     {"title": "Encounter", "action": encounter.main},
     {"title": "Pathfinder", "action": pathfinder},
     {"title": "DnD 3.5", "action": dnd},
     {"title": "Cyclopedia", "action": cyclo},
+    {"title": "EGP", "action": egp},
 ]
 
+ACTIONS = {
+    "adventure": adventure.main
+}
 
 def selectBook(bookId):
-    logging.debug("Book: %s", bookId)
+    logging.debug("Book #%d", bookId)
     book = UNITS[bookId].get("action", None)
     return book(bookId)
 
 
-def main(argv):  # pragma: no cover
-    import getopt
+def runAction(action=None, args=[]):
+    if action is None:
+        return 0
 
-    try:
-        parsed = gui.commandline.parseArgs(argv)
-    except(getopt.GetoptError):
+    a = ACTIONS.get(action, None)
+    logging.debug("Running %s", action)
+    if a is None:
         gui.helpMessage()
+    a(0, args)
 
+    import sys
+    sys.exit(0)
+
+def main(id=0, options=dict()):  # pragma: no cover
     logging.info("Starting helper")
+    runAction(action=options.get("action", None), args=options.get("args", []))
+
     while True:
-        r = gui.menu.showMenu(items=["{title} ({book})".format(
-            title=u.get("title", "\u2026"),
-            book=u.get("book", ""),
-        ) for u in UNITS], func=selectBook)
+        r = gui.menu.showMenu(items=[u["title"] for u in UNITS], func=selectBook)
         print(r)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    main(sys.argv[1:])
+    import sys
+    import getopt
+
+    try:
+        options = gui.commandline.parseArgs(sys.argv[1:], action=True)
+    except(getopt.GetoptError):
+        gui.helpMessage()
+
+    main(options=options)

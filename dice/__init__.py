@@ -6,6 +6,17 @@ import random
 import logging
 
 
+def byPercent(cases=dict()):
+    percents = list(cases.keys())
+    percents.sort()
+
+    p = random.randrange(100)
+    logging.debug("%d%%", p)
+    for i in percents:
+        if p < i:
+            return cases[i]
+
+
 def d(dices=1, sides=6, dropMin=0, modifier=0):
     rolls = [Dice(sides) for d in range(dices)]
 

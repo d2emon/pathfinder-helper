@@ -8,7 +8,7 @@ import getopt
 import ruleset
 
 
-def parseArgs(argv):
+def parseArgs(argv, action=False):
     """
     Parsing argv for arguments
     """
@@ -36,6 +36,10 @@ def parseArgs(argv):
             options["rollMethod"] = methods[arg]
         elif opt in ("-f", "--file"):
             options["filename"] = arg
+    if len(args) > 0:
+        if action:
+            options["action"] = args.pop(0)
+        options["args"] = args
 
     logging.basicConfig(**logconfig)
     return options

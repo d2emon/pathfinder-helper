@@ -2,10 +2,9 @@
 # -*- coding:utf-8 -*-
 
 
-# import logging
+import logging
 import yaml
 import random
-import logging
 
 import gui.menu
 

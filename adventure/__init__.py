@@ -5,7 +5,7 @@
 import logging
 
 import dice
-import gui.commandline
+import gui.menu
 
 
 CLASSES = {
@@ -17,7 +17,7 @@ CLASSES = {
     99: "Psionics",
 }
 
-TRIBUTES ={
+TRIBUTES = {
     99: "Tribute every month, either in the form of food, gifts or slaves",
     87: "Swear allegience to serve",
     74: "All of the towns wealth be given",
@@ -40,11 +40,22 @@ KIDNAPPED = {
 }
 
 
-FILES = {
+FILENAMES = {
     "tavern": "db/adventures/tavern.txt",
     "global": "db/adventures/global.txt",
     "local": "db/adventures/local.txt",
 }
+
+STYLES = [
+    {"title": "Local", "filename": FILENAMES["local"]},
+    {"title": "Tavern", "filename": FILENAMES["tavern"]},
+    {"title": "Global", "filename": FILENAMES["global"]},
+]
+
+
+class Adventure():
+    def __init__(self):
+        self.description = ""
 
 
 def fromFile(filename):
@@ -53,18 +64,25 @@ def fromFile(filename):
     adventures = []
     with open(filename) as f:
         adventures = f.readlines()
-    return random.choice(adventures)
+    return random.choice(adventures).rstrip()
+
+
+def selStyle(id, args=[]):
+    style = STYLES[id]
+    print(style)
+    return style
 
 
 def main(id=0, options=[]):  # pragma: no cover
     logging.debug("Adventure generation")
 
-    defaultId = "local"
-    default = FILES[defaultId]
+    default = FILENAMES["local"]
+    logging.debug(options)
     if len(options) == 0:
-        options.append(defaultId)
-    filenames = [FILES.get(a, default) for a in options]
-    quests = [fromFile(f) for f in filenames]
+        styles = [gui.menu.showMenu(title="Select adventure type:", items=[s["title"] for s in STYLES], func=selStyle)]
+    else:
+        styles = [{"filename": FILENAMES.get(a, default)} for a in options]
+    quests = [[f, fromFile(f["filename"])] for f in styles]
 
     replaces = {
         "{{classes}}": dice.byPercent(CLASSES),
@@ -73,13 +91,15 @@ def main(id=0, options=[]):  # pragma: no cover
     }
     for q in quests:
         for r in replaces.keys():
-            q = q.replace(r, replaces[r])
-        print(q)
+            q[1] = q[1].replace(r, replaces[r])
+        print(q[1])
 
 
 if __name__ == "__main__":  # pragma: no cover
     import sys
     import getopt
+    import gui
+    import gui.commandline
 
     try:
         options = gui.commandline.parseArgs(sys.argv[1:])

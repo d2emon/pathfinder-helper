@@ -54,22 +54,25 @@ STYLES = [
 
 
 class Adventure():
-    def __init__(self):
+    def __init__(self, style):
         self.description = ""
+        logging.debug(style)
+        self.title = style.get("title", None)
+        filename = style.get("filename", None)
+        if filename is not None:
+            self.load(filename)
 
+    def load(self, filename):
+        import random
 
-def fromFile(filename):
-    import random
-
-    adventures = []
-    with open(filename) as f:
-        adventures = f.readlines()
-    return random.choice(adventures).rstrip()
+        adventures = []
+        with open(filename) as f:
+            adventures = f.readlines()
+        self.description = random.choice(adventures).rstrip()
 
 
 def selStyle(id, args=[]):
     style = STYLES[id]
-    print(style)
     return style
 
 
@@ -78,21 +81,22 @@ def main(id=0, options=[]):  # pragma: no cover
 
     default = FILENAMES["local"]
     logging.debug(options)
+    adventures = []
     if len(options) == 0:
-        styles = [gui.menu.showMenu(title="Select adventure type:", items=[s["title"] for s in STYLES], func=selStyle)]
+        adventures = [Adventure(style=gui.menu.showMenu(title="Select adventure type:", items=[s["title"] for s in STYLES], func=selStyle))]
     else:
-        styles = [{"filename": FILENAMES.get(a, default)} for a in options]
-    quests = [[f, fromFile(f["filename"])] for f in styles]
+        adventures = [Adventure(style={"filename": FILENAMES.get(a, default)}) for a in options]
 
     replaces = {
         "{{classes}}": dice.byPercent(CLASSES),
         "{{tributes}}": dice.byPercent(TRIBUTES),
         "{{kidnapped}}": dice.byPercent(KIDNAPPED),
     }
-    for q in quests:
+    for q in adventures:
         for r in replaces.keys():
-            q[1] = q[1].replace(r, replaces[r])
-        print(q[1])
+            q.description = q.description.replace(r, replaces[r])
+        print(q.title)
+        print(q.description)
 
 
 if __name__ == "__main__":  # pragma: no cover

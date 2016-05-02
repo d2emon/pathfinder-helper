@@ -11,7 +11,7 @@ def byPercent(cases=dict()):
     percents.sort()
 
     p = random.randrange(100)
-    logging.debug("%d%%", p)
+    logging.debug("%d%% of %s", p, percents)
     for i in percents:
         if p < i:
             return cases[i]

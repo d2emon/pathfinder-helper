@@ -12,6 +12,8 @@ def showMenu(title="", items=[], func=None, args=dict()):
     while True:
         print(title)
         for i, t in enumerate(items):
+            if isinstance(t, dict):
+                t = t.get("title", "Unknown")
             print("%d.\t%s" % (i + 1, t))
         print("-" * 80)
         print("0.\tExit")

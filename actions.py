@@ -6,6 +6,7 @@ import logging
 
 import gui
 import adventure
+import equipment
 import generate
 import encounter
 
@@ -144,8 +145,6 @@ def cyclo(id):
 
 
 UNITS = [
-    {"title": "Generator", "action": generate.main},
-    {"title": "Encounter", "action": encounter.main},
     {"title": "Pathfinder", "action": pathfinder},
     {"title": "DnD 3.5", "action": dnd},
     {"title": "Cyclopedia", "action": cyclo},
@@ -165,14 +164,17 @@ def booksMenu(actionId):
 
 
 CMDS = {
-    "adventure": adventure.main
+    "adventure": adventure.main,
+    "equipment": equipment.main,
+
+    "encounter": encounter.main,
+    "generate": generate.main,
 }
 
 
 ACTIONS = [
     {"title": "Adventure", "action": CMDS["adventure"]},
-    {"title": "Art Object"},
-    {"title": "Attribute"},
+    {"title": "Art Object", "action": CMDS["equipment"]},
     {"title": "Adventure"},
     {"title": "Adventure"},
     {"title": "Adventure"},
@@ -189,7 +191,9 @@ ACTIONS = [
     {"title": "Adventure"},
     {"title": "Adventure"},
     {"title": "Adventure"},
-    {"title": "Adventure", "action": booksMenu},
+    {"title": "Encounter", "action": CMDS["encounter"]},
+    {"title": "Generator", "action": CMDS["generate"]},
+    {"title": "Book", "action": booksMenu},
 ]
 
 

@@ -4,9 +4,6 @@
 
 import logging
 
-import dice
-import gui.menu
-
 
 CLASSES = {
     0: "Fighters",
@@ -54,8 +51,12 @@ STYLES = [
 
 
 class Adventure():
-    def __init__(self, style):
-        self.description = ""
+    def __init__(self, id=-1, style=dict()):
+        self.__description = ""
+
+        if id >= 0:
+            style.update(STYLES[id])
+
         logging.debug(style)
         self.title = style.get("title", None)
         filename = style.get("filename", None)
@@ -68,33 +69,44 @@ class Adventure():
         adventures = []
         with open(filename) as f:
             adventures = f.readlines()
-        self.description = random.choice(adventures).rstrip()
+        self.__description = random.choice(adventures).rstrip()
+
+    def getDescription(self):
+        import dice
+        replaces = {
+            "{{classes}}": dice.byPercent(CLASSES),
+            "{{tributes}}": dice.byPercent(TRIBUTES),
+            "{{kidnapped}}": dice.byPercent(KIDNAPPED),
+        }
+
+        description = self.__description
+        for r in replaces.keys():
+            description = description.replace(r, replaces[r])
+
+        return description
+
+    def setDescription(self, value):
+        self.__description = value
+
+    description = property(getDescription, setDescription)
 
 
-def selStyle(id, args=[]):
-    style = STYLES[id]
-    return style
-
-
-def main(id=0, options=[]):  # pragma: no cover
+def main(id=0, options=[]):
+    """
+    Adventure generator main function
+    """
+    import gui.menu
     logging.debug("Adventure generation")
 
     default = FILENAMES["local"]
     logging.debug(options)
     adventures = []
     if len(options) == 0:
-        adventures = [Adventure(style=gui.menu.showMenu(title="Select adventure type:", items=[s["title"] for s in STYLES], func=selStyle))]
+        adventures = [Adventure(id=gui.menu.showMenu(title="Select adventure type:", items=STYLES))]
     else:
         adventures = [Adventure(style={"filename": FILENAMES.get(a, default)}) for a in options]
 
-    replaces = {
-        "{{classes}}": dice.byPercent(CLASSES),
-        "{{tributes}}": dice.byPercent(TRIBUTES),
-        "{{kidnapped}}": dice.byPercent(KIDNAPPED),
-    }
     for q in adventures:
-        for r in replaces.keys():
-            q.description = q.description.replace(r, replaces[r])
         print(q.title)
         print(q.description)
 

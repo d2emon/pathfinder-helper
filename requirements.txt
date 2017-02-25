@@ -1,1 +1,2 @@
 -e git://github.com/d2emon/pydice.git#egg=pydice
+flask

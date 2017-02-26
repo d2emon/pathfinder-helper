@@ -134,10 +134,10 @@
 </nav>
 <div class="btn-toolbar" role="toolbar" aria-label="toolbar">
   <div class="btn-group" role="group" aria-label="navigation">
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span><br>First</button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span><br>Next</button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span><br>Prev</button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span><br>Last</button>
+    <a href="{{g.pc[0].link()}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span><br>First</a>
+    <a href="{{g.pc[selected.prev()].link()}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span><br>Prev</a>
+    <a href="{{g.pc[selected.next()].link()}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span><br>Next</a>
+    <a href="{{g.pc[-1].link()}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span><br>Last</a>
   </div>
   <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><br>Find</button>
   <div class="btn-group" role="group" aria-label="char">
@@ -160,11 +160,13 @@
 
 <div>
   <table>
-    <tbody>
+    <thead>
       <tr><td>Name</td><td>Attributes</td><td>HP</td><td>AC</td><td>Saving Throws</td><td>Right Hand</td><td>Left Hand</td><td>Level(xp)</td></tr>
-      <tr><td><strong>Character 1</strong></td><td>10, 10, 10, 10, 10, 10</td><td>8</td><td>10</td><td>10, 10, 10</td><td>+12</td><td>-</td><td>2(1000xp)</td></tr>
-      <tr><td><a href="#">Character 2</a></td><td>10, 10, 10, 10, 10, 10</td><td>8</td><td>10</td><td>10, 10, 10</td><td>+12</td><td>-</td><td>2(1000xp)</td></tr>
-      <tr><td><a href="#">Character 3</a></td><td>10, 10, 10, 10, 10, 10</td><td>8</td><td>10</td><td>10, 10, 10</td><td>+12</td><td>-</td><td>2(1000xp)</td></tr>
+    </thead>
+    <tbody>
+      {% for c in g.pc %}
+      <tr><td>{% if c == selected %}<strong>{{c.name}}</strong>{% else %}<a href="/char/{{c.id}}">{{c.name}}</a>{% endif %}</td><td>{{c.attributes}}</td><td>{{c.HP}}</td><td>{{c.AC}}</td><td>{{c.saving_throws}}</td><td>{{c.hands.0}}</td><td>{{c.hands.1}}</td><td>{{c.level}}</td></tr>
+	  {% endfor %}
     </tbody>
   </table>
 </div>

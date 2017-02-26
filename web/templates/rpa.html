@@ -151,67 +151,24 @@
   <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-random" aria-hidden="true"></span><br>Dices</button>
   <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span><br>Advan.</button>
 </div>
-  <ul>
-  	<li>
-  	  System
-  	  <ul>
-  	    <li>Index Maintenance</li>
-  	    <li>
-  	      Modify reports
-		  <ul>
-		    <li>Equipment</li>
-		    <li>Character sheet</li>
-		    <li>Spellbook</li>
-		    <li>DM Report</li>
-		    <li>Encounters</li>
-		    <li>Names</li>
-		    <li>Skill list</li>
-		    <li>Weather</li>
-		    <li>Time Tracker Sheet</li>
-		    <li>Blank Background Sheet</li>
-		    <li>Blank Gear Sheet</li>
-		    <li>Other report</li>
-		  </ul>
-  	    </li>
-  	    <li>Modify System Database</li>
-  	    <li>RPA parameters</li>
-  	    <li>Select another RPG or database</li>
-  	    <li>Translator configuration</li>
-  	    <li>----</li>  	    
-  	    <li>Import new generation engine table</li>
-  	    <li>Import/Export manager</li>
-  	  </ul>
-  	</li>
-  	<li>
-  	  Edit
-  	  <ul>
-  	    <li>Index Maintenance</li>
-  	  </ul>
-  	</li>
-  	<li>
-  	  Tools
-  	  <ul>
-  	    <li>Index Maintenance</li>
-  	  </ul>
-  	</li>
-  	<li>
-  	  Character
-  	  <ul>
-  	    <li>Index Maintenance</li>
-  	  </ul>
-  	</li>
-  	<li>
-  	  RPG structure
-  	  <ul>
-  	    <li>Index Maintenance</li>
-  	  </ul>
-  	</li>
-  </ul>
+
 {% with messages = get_flashed_messages() %}
 {% for message in messages %}
   <div class="alert alert-info">{{ message }}</div>
 {% endfor %}
 {% endwith %}
+
+<div>
+  <table>
+    <tbody>
+      <tr><td>Name</td><td>Attributes</td><td>HP</td><td>AC</td><td>Saving Throws</td><td>Right Hand</td><td>Left Hand</td><td>Level(xp)</td></tr>
+      <tr><td><strong>Character 1</strong></td><td>10, 10, 10, 10, 10, 10</td><td>8</td><td>10</td><td>10, 10, 10</td><td>+12</td><td>-</td><td>2(1000xp)</td></tr>
+      <tr><td><a href="#">Character 2</a></td><td>10, 10, 10, 10, 10, 10</td><td>8</td><td>10</td><td>10, 10, 10</td><td>+12</td><td>-</td><td>2(1000xp)</td></tr>
+      <tr><td><a href="#">Character 3</a></td><td>10, 10, 10, 10, 10, 10</td><td>8</td><td>10</td><td>10, 10, 10</td><td>+12</td><td>-</td><td>2(1000xp)</td></tr>
+    </tbody>
+  </table>
+</div>
+
   <div>
 {% block content %}{% endblock %}
   </div>

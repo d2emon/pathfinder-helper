@@ -2,8 +2,8 @@
 {% block content %}
 <h1>Select RPG</h1>
 <div class="btn-toolbar" role="toolbar" aria-label="toolbar">
-  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>Add</button>
-  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span><br>Del</button>
+  <a href="{{ url_for('rpg_add') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>Add</a>
+  <a href="{{ url_for('rpg_del') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span><br>Del</a>
 </div>
 <div>
   <p><strong>Current definition set selected:</strong> {{selected.name}}</p>

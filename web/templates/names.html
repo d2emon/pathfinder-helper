@@ -1,0 +1,13 @@
+{% extends "rpa.html" %}
+{% block content %}
+<h1>Select RPG</h1>
+{% if names %}
+<ul>
+  {% for name in names %}
+  <li>{{name}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<div>No aviable RPGs</div>
+{% endif %}
+{% endblock %}

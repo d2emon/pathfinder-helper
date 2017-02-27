@@ -65,3 +65,15 @@ def charsheet(char_id):
     g.pc = pc
     g.selected = pc[char_id - 1]
     return render_template("char.html")
+
+
+@app.route("/name/<country>")
+def random_name(country=""):
+    names = []
+    from web.models import MCName
+    for i in range(100):
+        names.append(MCName().New())
+    names.append("---")
+    for i in range(100):
+        names.append(MCName(3).New())
+    return render_template("names.html", names=names)

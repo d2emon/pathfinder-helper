@@ -4,11 +4,11 @@
 
 class Line:
     def __init__(self, s=""):
-        self.data = s.strip()
+        self.data = s.strip()  # .encode('utf-8')
 
 
 def LinesFile(filename):
     lines = []
-    with open(filename) as f:
+    with open(filename, encoding='utf-8') as f:
         lines = [Line(s) for s in f.readlines()]
         return(lines)

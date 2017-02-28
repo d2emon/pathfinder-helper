@@ -70,7 +70,7 @@ def charsheet(char_id):
 @app.route("/name/<country>")
 def random_name(country=""):
     names = []
-    from web.models import MCName
+    from models.markov import MCName
     for i in range(100):
         names.append(MCName().New())
     names.append("---")

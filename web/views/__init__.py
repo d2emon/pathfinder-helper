@@ -71,9 +71,18 @@ def charsheet(char_id):
 def random_name(country=""):
     names = []
     from models.markov import MCName
+    from models import get_RussianName
     for i in range(100):
         names.append(MCName().New())
     names.append("---")
     for i in range(100):
         names.append(MCName(3).New())
+    names.append("---")
+    import random
+    for i in range(100):
+        if random.randrange(0, 2) > 0:
+            c = False
+        else:
+            c = True
+        names.append(get_RussianName(c))
     return render_template("names.html", names=names)

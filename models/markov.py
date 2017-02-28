@@ -56,17 +56,6 @@ class MCName:
         Building the dictionary
         """
         self.mcd = MCDict(chainlen, "db/names/names.txt")
-        print("-"*80)
-        print(chainlen)
-        print(self.mcd.d)
-        print("-"*80)
-        for p, s in self.mcd.d.items():
-            print(p, s)
-        print("-"*80)
-        ks = [k for k in self.mcd.d.keys()]
-        ks.sort()
-        for k in ks:
-            print(k, self.mcd.d[k])
 
     def New(self):
         """

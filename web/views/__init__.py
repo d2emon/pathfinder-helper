@@ -67,7 +67,12 @@ def charsheet(char_id):
     return render_template("char.html")
 
 
-@app.route("/name/<country>")
+@app.route("/name")
+def list_names(country=""):
+    return render_template("names.html")
+
+
+@app.route("/name/world/<country>")
 def random_name(country=""):
     names = []
     from models.markov import MCName
@@ -106,5 +111,5 @@ def random_name(country=""):
     elif country == "desc":
         return render_template("names-desc.html", names=names)
     elif country == "generator":
-        return render_template("names-gen.html", names=names)
+        return render_template("names-gen.html", names=[])
     return render_template("names.html", names=names)

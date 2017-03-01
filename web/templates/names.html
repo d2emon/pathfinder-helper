@@ -10,13 +10,4 @@
   <li><a href="{{ url_for('random_name', country='description') }}">Descriptions</a></li>
   <li><a href="{{ url_for('random_name', country='generator') }}">Other Generators</a></li>
 </ul>
-{% if names %}
-<ul>
-  {% for name in names %}
-  <li>{{name}}</li>
-  {% endfor %}
-</ul>
-{% else %}
-<div>No aviable RPGs</div>
-{% endif %}
 {% endblock %}

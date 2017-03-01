@@ -67,3 +67,4 @@ target/
 *.yml
 /.project
 /.pydevproject
+/flask_session

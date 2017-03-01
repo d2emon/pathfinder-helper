@@ -70,3 +70,10 @@ pc = [
 games = []
 for g in models.rpa.games:
     games.append(RPG(g))
+    
+    
+def current_rpg(rpg_id=None):
+    if rpg_id is None:
+        from flask import session
+        rpg_id = session.get("rpg", 0)
+    return games[rpg_id - 1]

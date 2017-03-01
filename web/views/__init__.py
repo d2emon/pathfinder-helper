@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
 from web import app
-from web.models import games, pc
-from flask import g, render_template, redirect
+from web.models import games, pc, current_rpg
+from flask import g, render_template, redirect, session
 from flask.helpers import url_for
 
 
@@ -17,8 +17,7 @@ def index():
 
 @app.route("/rpg")
 def rpg_list():
-    rpg_id = 0
-    return render_template("rpg.html", games=games, selected=games[rpg_id])
+    return render_template("rpg.html", games=games, selected=current_rpg())
 
 
 @app.route("/rpg/add")
@@ -33,20 +32,23 @@ def rpg_del():
 
 @app.route("/rpg/<int:rpg_id>")
 def select_rpg(rpg_id):
+    session["rpg"] = rpg_id
     if rpg_id <= 0:
         return redirect(url_for("rpg_list"))
 
-    rpg = games[rpg_id - 1]
+    rpg = current_rpg()
     return redirect(url_for("campaign_list"))
 
 
 @app.route("/campaign")
 def campaign_list():
-    rpg_id = 0
-    rpg = games[rpg_id]
+    rpg_id = session.get("rpg", 0)
+    print(rpg_id)
+    
+    rpg = current_rpg()
     campaigns =rpg.gs.campaigns
     print(campaigns)
-    return render_template("campaigns.html", campaigns=campaigns, selected=games[rpg_id])
+    return render_template("campaigns.html", campaigns=campaigns, selected=rpg)
 
 
 @app.route("/campaign/add")
@@ -61,7 +63,7 @@ def campaign_del():
 
 @app.route("/campaign/<int:campaign_id>")
 def session_list(campaign_id):
-    rpg = games[0]  # campaign_id]
+    rpg = current_rpg()
     campaigns =rpg.gs.campaigns
     campaign = campaigns[0]  # campaign_id]
     print(campaign)

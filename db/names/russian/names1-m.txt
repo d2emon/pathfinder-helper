@@ -7,25 +7,163 @@
 Афанасий
 Агафон
 Александр
-Aleksei (Alyosha)","Anatoliy (Tolya)","Andrei (Andrusha","Anton (Antosha)","Aristarkh","Arkadiy","Arseniy","Artem (Tyoma)","Artemiy","Artur","Avgust
-Bogdan","Bogomil","Boleslaw","Boris (Borya)","Borislav","Boyan","Branislav","Bratislav
-Damir","Danila (Danilka)","David","Demian","Denis (Deniska)","Dionisiy","Dmitriy (Dima)","Dobromil","Dobromir","Dominik
-Edgar","Edik","Eduard","Erik
-Feliks","Filipp (Filya)","Fyodor (Fedya)","Foma
-Gavrila","Gennadiy (Gena)","Georgiy (Jora)","Gerasim","German (Gera)","Gleb","Grigoriy  (Grisha)
-Hristofor
-Ignatiy","Igor (Igorek)","Ilya (Ilik)","Innokentiy (Kesha)","Ioakim","Iosif","Isaak","Ivan (Vanya)","Iyeremey","Jaromir","Jaroslav
-Karl","Kirill (Kirilka)","Klavdiy","Konstantin (Kostya)","Korney","Krasimir","Kusma (Kusya)","Kvetoslav
-Larion (Larya)","Lavrentiy","Lazar","Leonid (Lyonya)","Leontiy","Lev","Lubomir","Ludomir","Luka","Lukyan
-Makar (Makarka)","Maksimilian","Matvey","Maxim (Maks)","Mikhail (Misha)","Milan","Milomir","Milorad","Miloslav","Mirogod","Miron","Miroslav","Mitrofan","Mstislav
-Nikanor","Nikifor","Nikita (Kesha)","Nikodim","Nikofor","Nikolay (Kolya)
-Oleg (Olezhka)","Osip
-Panteley","Pavel (Pasha)","Pyotr (Petya)","Polikarp","Porfiriy","Potap","Pribislav","Prokhor
-Radomir","Radoslav","Rasim","Ratibor","Ratimir","Robert","Rodion (Rodya)","Roman (Roma)","Rostislav (Rostik)","Ruslan (Rusya)","Rustem
-Sambor","Samuil","Saveliy (Sava)","Semyon (Senya)","Sergey (Seryozha)","Spiridon","Stanimir","Stanislav (Stas)","Stepan (Styopa)","Svyatoslav (Slava)
-Taras (Tarasik)","Tikhon (Tisha)","Timofey (Tima)","Timur (Tima)
-Vadim (Vadik)","Valentin (Valya)","Valerian (Lera)","Valeriy (Valera)","Vaniamin","Vasiliy (Vasya)","Velimir","Victor (Vitya)","Vikentiy","Vitaliy (Vitya)","Vitomir","Vladan","Vladimir (Vova)","Vladislav (Slava)","Vlastimil","Vojislav","Vsevolod (Vova)","Vyacheslav (Slava)
-Yakov (Yasha)","Yan (Yanka)","Yaroslav (Slava)","Yefim","Yefrem","Yegor (Jora)","Yelisey","Yemelyan (Yemelya)","Yeremey","Yermola","Yermolay (Yeryoma)","Yevdokim","Yevgeniy (Zhenya)","Yevstigney
+Алексей
+Анатолий
+Андрей
+Антон
+Аристарх
+Аркадий
+Арсений
+Артем
+Артемий
+Артур
+Август
+Богдан
+Богомил
+Болеслав
+Борис
+Борислав
+Боян
+Бранислав
+Братислав
+Дамир
+Данила
+Давид
+Демьян
+Денис
+Дмитрий
+Добромил
+Добромир
+Доминик
+Эдгар
+Эдуард
+Эрик
+Феликс
+Филипп
+Федор
+Фома
+Гаврила
+Геннадий
+Георгий
+Герасим
+Герман
+Глеб
+Григорий
+Христофор
+Игнатий
+Игорь
+Илья
+Иннокентий
+Иоахим
+Иосиф
+Исаак
+Иван
+Иеремей
+Яромир
+Ярослав
+Карл
+Кирилл
+Клавдий
+Константин
+Корней
+Красимир
+Кузьма
+Кветослав
+Ларион
+Лаврентий
+Лазарь
+Леонид
+Леонтий
+Лев
+Любомир
+Людомир
+Лука
+Лукьян
+Макар
+Максимилиан
+Матвей
+Максим
+Михаил
+Милан
+Миломир
+Милорад
+Милослав
+Мирогод
+Мирон
+Мирослав
+Митрофан
+Мстислав
+Никанор
+Никифор
+Никита
+Никодим
+Николай
+Олег
+Осип
+Пантелей
+Павел
+Петр
+Поликарп
+Порфирий
+Потап
+Прибислав
+Прохор
+Радомир
+Радослав
+Расим
+Ратибор
+Ратимир
+Роберт
+Родион
+Роман
+Ростислав
+Руслан
+Рустем
+Самбор
+Самуил
+Савелий
+Семен
+Сергей
+Спиридон
+Станимир
+Станислав
+Степан
+Святослав
+Тарас
+Тихон
+Тимофей
+Тимур
+Вадим
+Валентин
+Валерьян
+Валерий
+Вениамин
+Василий
+Велимир
+Виктор
+Викентий
+Виталий
+Витомир
+Владан
+Владимир
+Владислав
+Властимил
+Воислав
+Всеволод
+Вячеслав
+Яков
+Ян
+Ярослав
+Ефим
+Ефрем
+Егор
+Елисей
+Емельян
+Еремей
+Ермолай
+Евдоким
+Евгений
+Евстигней
 Юлиан
 Юлий
 Юрий

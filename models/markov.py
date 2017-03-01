@@ -30,11 +30,11 @@ class MCDict:
 
     def add_element(self, element):
         s = " " * self.chainlen + element
-        for n in range(0,len(element)):
+        for n in range(0, len(element)):
             self.add_key(s[n:n+self.chainlen], s[n+self.chainlen])
         self.add_key(s[len(element):len(element)+self.chainlen], "\n")
 
-    def get_suffix(self,prefix):
+    def get_suffix(self, prefix):
         l = self[prefix]
         return random.choice(l)
 
@@ -51,7 +51,7 @@ class MCName:
     """
     max_length = 15  # 9
 
-    def __init__(self, chainlen = 2):
+    def __init__(self, chainlen=2):
         """
         Building the dictionary
         """
@@ -80,7 +80,7 @@ class MCRussianName(MCName):
     """
     max_length = 15  # 9
 
-    def __init__(self, chainlen = 2):
+    def __init__(self, chainlen=2):
         """
         Building the dictionary
         """

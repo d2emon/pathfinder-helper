@@ -88,10 +88,10 @@ def random_name(country=""):
         names.append(get_RussianName(c))
     names.append("---")
     for i in range(100):
-        names.append(MCRussianName().New())
+        names.append(MCRussianName().NewFull())
     names.append("---")
     for i in range(100):
-        names.append(MCRussianName(3).New())
+        names.append(MCRussianName(3).NewFull())
 
     if country == "fiction":
         return render_template("names-fiction.html", names=names)

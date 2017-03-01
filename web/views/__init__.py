@@ -49,6 +49,36 @@ def campaign_list():
     return render_template("campaigns.html", campaigns=campaigns, selected=games[rpg_id])
 
 
+@app.route("/campaign/add")
+def campaign_add():
+    return redirect(url_for("char_list"))
+
+
+@app.route("/campaign/del")
+def campaign_del():
+    return redirect(url_for("char_list"))
+
+
+@app.route("/campaign/<int:campaign_id>")
+def session_list(campaign_id):
+    rpg = games[0]  # campaign_id]
+    campaigns =rpg.gs.campaigns
+    campaign = campaigns[0]  # campaign_id]
+    print(campaign)
+    return redirect(url_for("char_list"))
+    # return render_template("campaigns.html", campaigns=campaigns, selected=games[rpg_id])
+
+
+@app.route("/session/add")
+def session_add():
+    return redirect(url_for("char_list"))
+
+
+@app.route("/session/del")
+def session_del():
+    return redirect(url_for("char_list"))
+
+
 @app.route("/char")
 def char_list():
     g.pc = pc

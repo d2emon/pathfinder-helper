@@ -3,5 +3,7 @@
 from web import app
 
 
+import os
+debug = os.environ.get('DEBUG', False)
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=debug)

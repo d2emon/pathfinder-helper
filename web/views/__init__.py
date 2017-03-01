@@ -71,6 +71,7 @@ def charsheet(char_id):
 def random_name(country=""):
     names = []
     from models.markov import MCName
+    from models.markov import MCRussianName
     from models import get_RussianName
     for i in range(100):
         names.append(MCName().New())
@@ -85,4 +86,10 @@ def random_name(country=""):
         else:
             c = True
         names.append(get_RussianName(c))
+    names.append("---")
+    for i in range(100):
+        names.append(MCRussianName().New())
+    names.append("---")
+    for i in range(100):
+        names.append(MCRussianName(3).New())
     return render_template("names.html", names=names)

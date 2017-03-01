@@ -37,7 +37,16 @@ def select_rpg(rpg_id):
         return redirect(url_for("rpg_list"))
 
     rpg = games[rpg_id - 1]
-    return redirect(url_for("char_list"))
+    return redirect(url_for("campaign_list"))
+
+
+@app.route("/campaign")
+def campaign_list():
+    rpg_id = 0
+    rpg = games[rpg_id]
+    campaigns =rpg.gs.campaigns
+    print(campaigns)
+    return render_template("campaigns.html", campaigns=campaigns, selected=games[rpg_id])
 
 
 @app.route("/char")

@@ -1,0 +1,18 @@
+{% extends "rpa.html" %}
+{% block content %}
+<h1>Select Campaign</h1>
+<h2>Current definition set selected: {{selected.name}}</h2>
+<div class="btn-toolbar" role="toolbar" aria-label="toolbar">
+  <a href="{{ url_for('rpg_add') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>Add</a>
+  <a href="{{ url_for('rpg_del') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span><br>Del</a>
+</div>
+{% if campaigns %}
+<ul>
+  {% for campaign in campaigns %}
+  <li><a href="{{ selected.link() }}">{{campaign.title}}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<div>No aviable RPGs</div>
+{% endif %}
+{% endblock %}

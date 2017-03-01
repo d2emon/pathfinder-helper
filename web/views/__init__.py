@@ -92,4 +92,19 @@ def random_name(country=""):
     names.append("---")
     for i in range(100):
         names.append(MCRussianName(3).New())
+
+    if country == "fiction":
+        return render_template("names-fiction.html", names=names)
+    elif country == "real":
+        return render_template("names-real.html", names=names)
+    elif country == "place":
+        return render_template("names-place.html", names=names)
+    elif country == "culture":
+        return render_template("names-culture.html", names=names)
+    elif country == "other":
+        return render_template("names-other.html", names=names)
+    elif country == "desc":
+        return render_template("names-desc.html", names=names)
+    elif country == "generator":
+        return render_template("names-gen.html", names=names)
     return render_template("names.html", names=names)

@@ -1,43 +1,15 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-from web import app
-from web.models import games, pc, current_rpg
 from flask import g, render_template, redirect, session
 from flask.helpers import url_for
+from web import app
+from web.models import pc, current_rpg
+from models.rpa import games
 
 
 # from web.views.char import character, new_character, edit_character
 # from web.views.fraction import fraction, new_fraction, edit_fraction
-
-
-@app.route("/")
-def index():
-    return redirect(url_for("rpg_list"))
-
-
-@app.route("/rpg")
-def rpg_list():
-    return render_template("rpg.html", games=games, selected=current_rpg())
-
-
-@app.route("/rpg/add")
-def rpg_add():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/rpg/del")
-def rpg_del():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/rpg/<int:rpg_id>")
-def select_rpg(rpg_id):
-    session["rpg"] = rpg_id
-    if rpg_id <= 0:
-        return redirect(url_for("rpg_list"))
-
-    rpg = current_rpg()
-    return redirect(url_for("campaign_list"))
+from web.views.game_system import *
 
 
 @app.route("/campaign")
@@ -46,7 +18,7 @@ def campaign_list():
     print(rpg_id)
     
     rpg = current_rpg()
-    campaigns =rpg.gs.campaigns
+    campaigns =rpg.campaigns
     print(campaigns)
     return render_template("campaigns.html", campaigns=campaigns, selected=rpg)
 

@@ -40,23 +40,6 @@ class PlayerCharacter:
         return url_for("charsheet", char_id=self.id)
 
 
-class RPG:
-    def __init__(self, gs=None):
-        self.gs = gs
-        if type(self.gs) is not models.rpa.GameSystem:
-            self.gs = models.rpa.GameSystem()
-
-        self.id = self.gs.id
-        self.name = self.gs.name
-        self.version = self.gs.version
-        self.path = self.gs.path
-        self.website = self.gs.website
-
-    def link(self):
-        from flask.helpers import url_for
-        return url_for("select_rpg", rpg_id=self.id)
-
-
 pc = [
     PlayerCharacter(1, "Char1"),
     PlayerCharacter(2, "Char2"),
@@ -66,14 +49,11 @@ pc = [
     PlayerCharacter(6, "Char6"),
     ]
 
-
-games = []
-for g in models.rpa.games:
-    games.append(RPG(g))
-    
     
 def current_rpg(rpg_id=None):
     if rpg_id is None:
         from flask import session
         rpg_id = session.get("rpg", 0)
+        
+    from models.rpa import games
     return games[rpg_id - 1]

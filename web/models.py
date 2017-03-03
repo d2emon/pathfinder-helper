@@ -9,9 +9,6 @@ PLACES = ['Adara', 'Adena', 'Adrianne', 'Alarice', 'Alvita', 'Amara', 'Ambika', 
 'Riona', 'Safiya', 'Salina', 'Severin', 'Sidonia', 'Sirena', 'Solita', 'Tempest', 'Thea', 'Treva', 'Trista', 'Vala', 'Winta']
 
 
-import models.rpa
-
-
 class PlayerCharacter:
     def __init__(self, id=0, name="Character"):
         self.id = id
@@ -49,11 +46,11 @@ pc = [
     PlayerCharacter(6, "Char6"),
     ]
 
-    
+
 def current_rpg(rpg_id=None):
     if rpg_id is None:
         from flask import session
-        rpg_id = session.get("rpg", 0)
-        
-    from models.rpa import games
-    return games[rpg_id - 1]
+        rpg_id = session.get("rpg_id", 0)
+
+    from models.rpa import GameSystem
+    return GameSystem.get(rpg_id)

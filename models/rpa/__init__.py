@@ -51,3 +51,7 @@ class GameSystem:
             for c_id, c_title in enumerate(campaigns_file.readlines()):
                 campaigns.append(Campaign(c_id + 1, c_title))
         return campaigns
+
+    def getCampaign(self, id=0):
+        campaigns = self.getCampaigns()
+        return campaigns[id - 1]

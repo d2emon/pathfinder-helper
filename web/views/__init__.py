@@ -9,37 +9,7 @@ from web.models import pc, current_rpg
 # from web.views.char import character, new_character, edit_character
 # from web.views.fraction import fraction, new_fraction, edit_fraction
 from web.views.game_system import *
-
-
-@app.route("/campaign")
-def campaign_list():
-    rpg_id = session.get("rpg_id", 0)
-    print(rpg_id)
-
-    rpg = current_rpg()
-    campaigns = rpg.getCampaigns()
-    print(campaigns)
-    return render_template("campaigns.html", campaigns=campaigns, selected=rpg)
-
-
-@app.route("/campaign/add")
-def campaign_add():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/campaign/del")
-def campaign_del():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/campaign/<int:campaign_id>")
-def session_list(campaign_id):
-    rpg = current_rpg()
-    campaigns = rpg.gs.campaigns
-    campaign = campaigns[0]  # campaign_id]
-    print(campaign)
-    return redirect(url_for("char_list"))
-    # return render_template("campaigns.html", campaigns=campaigns, selected=games[rpg_id])
+from web.views.campaign import *
 
 
 @app.route("/session/add")

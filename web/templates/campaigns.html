@@ -1,7 +1,7 @@
 {% extends "rpa.html" %}
 {% block content %}
 <h1>Select Campaign</h1>
-<h2>{{selected.name}}</h2>
+<h2>{{session['rpg'].name}}</h2>
 <div class="btn-toolbar" role="toolbar" aria-label="toolbar">
   <a href="{{ url_for('campaign_add') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>Add</a>
   <a href="{{ url_for('campaign_del') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span><br>Del</a>

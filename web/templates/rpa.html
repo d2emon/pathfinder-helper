@@ -69,7 +69,7 @@
 	  	    <li>Single dice roller</li>
             <li role="separator" class="divider"></li>
 	  	    <li>Time Tracker/Countdown</li>
-	  	    <li>Campaign manager</li>
+	  	    <li><a href="{{ url_for('campaign_list') }}">Campaign manager</a></li>
             <li role="separator" class="divider"></li>
 	  	    <li>Name Generator</li>
 	  	    <li>Treasure Generator</li>
@@ -150,8 +150,12 @@
       {% if session['rpg'] %}
       <div>
         <p><strong>Game system:</strong> {{session['rpg'].name}}</p>
-        <p><strong>Game system:</strong> {{selected.name}}</p>
-        <p><strong>Path:</strong> {{selected.path}}</p>
+        <p><strong>Path:</strong> {{session['rpg'].path}}</p>
+      </div>
+      {% endif %}
+      {% if session['campaign'] %}
+      <div>
+        <p><strong>Campaign:</strong> {{session['campaign'].title}}</p>
       </div>
       {% endif %}
     </div> 

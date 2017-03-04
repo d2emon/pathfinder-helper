@@ -2,8 +2,10 @@
 # -*- coding:utf-8 -*-
 from flask import render_template, redirect, session
 from flask.helpers import url_for
+
 from web import app
 from web.models import current_rpg
+
 from models.rpa import games
 
 
@@ -19,12 +21,12 @@ def rpg_list():
 
 @app.route("/rpg/add")
 def rpg_add():
-    return redirect(url_for("char_list"))
+    return redirect(url_for("campaign_list"))
 
 
 @app.route("/rpg/del")
 def rpg_del():
-    return redirect(url_for("char_list"))
+    return redirect(url_for("campaign_list"))
 
 
 @app.route("/rpg/<int:rpg_id>")

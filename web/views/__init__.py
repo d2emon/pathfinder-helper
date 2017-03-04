@@ -4,7 +4,6 @@ from flask import g, render_template, redirect, session
 from flask.helpers import url_for
 from web import app
 from web.models import pc, current_rpg
-from models.rpa import games
 
 
 # from web.views.char import character, new_character, edit_character
@@ -14,11 +13,11 @@ from web.views.game_system import *
 
 @app.route("/campaign")
 def campaign_list():
-    rpg_id = session.get("rpg", 0)
+    rpg_id = session.get("rpg_id", 0)
     print(rpg_id)
-    
+
     rpg = current_rpg()
-    campaigns =rpg.campaigns
+    campaigns = rpg.campaigns
     print(campaigns)
     return render_template("campaigns.html", campaigns=campaigns, selected=rpg)
 
@@ -36,7 +35,7 @@ def campaign_del():
 @app.route("/campaign/<int:campaign_id>")
 def session_list(campaign_id):
     rpg = current_rpg()
-    campaigns =rpg.gs.campaigns
+    campaigns = rpg.gs.campaigns
     campaign = campaigns[0]  # campaign_id]
     print(campaign)
     return redirect(url_for("char_list"))

@@ -13,7 +13,7 @@ class GameSystem:
         self.id = id
         self.name = name
         self.version = "7.13"
-        self.path = self.name
+        self.path = "db"
         self.website = ""
         self.campaigns = []
 
@@ -24,10 +24,20 @@ class GameSystem:
             c_title = "Campaign {}".format(i)
             self.campaigns.append(Campaign(c_id, c_title))
 
+    @staticmethod
+    def all():
+        from db.rpa.games import GAMES
+        games = []
+        for id, g in enumerate(GAMES):
+            games.append(GameSystem.get(id + 1))
+        return games
 
-games = [
-    GameSystem(1, "ADnD 2nd edition"),
-    GameSystem(2, "ADnD 3rd edition"),
-    GameSystem(3, "ADnD 3.5 edition"),
-    GameSystem(4, "ADnD-Wyrms"),
-]
+    @staticmethod
+    def get(id):
+        from db.rpa.games import GAMES
+        g = GAMES[id - 1]
+        game = GameSystem(id, g["name"])
+        game.version = g.get("version", "7.13")
+        game.path = g.get("path", "db")
+        game.website = g.get("website", "")
+        return game

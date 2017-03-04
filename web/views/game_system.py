@@ -15,7 +15,7 @@ def index():
 
 @app.route("/rpg")
 def rpg_list():
-    return render_template("rpg.html", games=GameSystem.all(), selected=current_rpg())
+    return render_template("rpg.html", games=GameSystem.query.all(), selected=current_rpg())
 
 
 @app.route("/rpg/add")

@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
+from sqlalchemy import Column, Integer, String
+from models import Base
 
 
 class Campaign:
@@ -8,7 +10,18 @@ class Campaign:
         self.title = title
 
 
-class GameSystem:
+class GameSystem(Base):
+    __tablename__ = 'game_system'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(32))
+    version = Column(String(16))
+    website = Column(String(255))
+    
+    def __repr__(self):
+        return "{} ({})".format(self.name, self.version)
+
+
+class GameSystemOld():
     def __init__(self, id=0, name="RPG"):
         self.id = id
         self.name = name
@@ -34,9 +47,6 @@ class GameSystem:
         game.path = g.get("path", "db")
         game.website = g.get("website", "")
         return game
-    
-    def __repr__(self):
-        return "{} ({})".format(self.name, self.version)
     
     def getCampaigns(self):
         filename = self.path + "/campaigns.txt"

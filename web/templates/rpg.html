@@ -8,7 +8,7 @@
 {% if games %}
 <ul>
   {% for rpg in games %}
-  <li><a href="{{ url_for('select_rpg', rpg_id=rpg.id) }}">{{rpg}}</a> {{rpg.website}}</li>
+  <li><a href="{{ url_for('select_rpg', rpg_id=rpg.id) }}">{{rpg}}</a>{%if rpg.website %} - <a href="{{rpg.website}}">{{rpg.website}}</a>{% endif %}</li>
   {% endfor %}
 </ul>
 {% else %}

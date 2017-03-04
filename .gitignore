@@ -68,3 +68,4 @@ target/
 /.project
 /.pydevproject
 /flask_session
+/db/*.db

@@ -2,6 +2,11 @@
 # -*- coding:utf-8 -*-
 
 
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+    
 class Line:
     def __init__(self, s=""):
         self.data = s.strip()  # .encode('utf-8')

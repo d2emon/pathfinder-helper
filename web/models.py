@@ -53,4 +53,4 @@ def current_rpg(rpg_id=None):
         rpg_id = session.get("rpg_id", 0)
 
     from models.rpa import GameSystem
-    return GameSystem.get(rpg_id)
+    return GameSystem.query.get(rpg_id)

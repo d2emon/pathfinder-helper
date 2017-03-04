@@ -6,6 +6,8 @@ from flask.helpers import url_for
 from web import app
 from web.models import current_rpg
 
+from models.rpa import Campaign
+
 
 @app.route("/campaign")
 def campaign_list():
@@ -14,7 +16,7 @@ def campaign_list():
     if rpg is None:
         return redirect(url_for('rpg_list'))
 
-    campaigns = rpg.getCampaigns()
+    campaigns = Campaign.query.filter(Campaign.gs_id==rpg.id).all() 
     print(campaigns)
     return render_template("campaigns.html", campaigns=campaigns)
 

@@ -1,13 +1,8 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from models import Base
-
-
-class Campaign:
-    def __init__(self, id=0, title="Campaign"):
-        self.id = id
-        self.title = title
 
 
 class GameSystem(Base):
@@ -16,9 +11,26 @@ class GameSystem(Base):
     name = Column(String(32))
     version = Column(String(16))
     website = Column(String(255))
+    campaigns = relationship("Campaign")
     
     def __repr__(self):
         return "{} ({})".format(self.name, self.version)
+
+
+class Campaign(Base):
+    __tablename__ = 'campaign'
+    id = Column(Integer, primary_key=True)
+    gs_id = Column(Integer, ForeignKey('game_system.id'))
+    title = Column(String(32))
+    
+    def __repr__(self):
+        return self.title
+
+
+class CampaignOld:
+    def __init__(self, id=0, title="Campaign"):
+        self.id = id
+        self.title = title
 
 
 class GameSystemOld():

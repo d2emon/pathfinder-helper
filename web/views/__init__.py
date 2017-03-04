@@ -10,16 +10,7 @@ from web.models import pc, current_rpg
 # from web.views.fraction import fraction, new_fraction, edit_fraction
 from web.views.game_system import *
 from web.views.campaign import *
-
-
-@app.route("/session/add")
-def session_add():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/session/del")
-def session_del():
-    return redirect(url_for("char_list"))
+from web.views.session import *
 
 
 @app.route("/char")

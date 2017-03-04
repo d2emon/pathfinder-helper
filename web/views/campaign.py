@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-from flask import render_template, redirect, session
+from flask import render_template, redirect, session, flash
 from flask.helpers import url_for
 
 from web import app
@@ -29,6 +29,7 @@ def campaign_add():
 @app.route("/campaign/del/<int:campaign_id>")
 def campaign_del(campaign_id):
     campaign = Campaign.query.get(campaign_id) 
+    flash("Кампания {} удалена".format(campaign))
     db_session.delete(campaign)
     db_session.commit()
         

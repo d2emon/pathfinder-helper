@@ -4,7 +4,7 @@ from flask import render_template, redirect, session, flash
 from flask.helpers import url_for
 
 from web import app
-from web.forms import CampaignForm
+from web.forms import SessionForm
 
 from models.rpa import GameSession
 from db import db_session
@@ -24,29 +24,37 @@ def session_list():
 @app.route("/session/add", methods=('GET', 'POST'))
 @app.route("/session/edit/<int:session_id>", methods=('GET', 'POST'))
 def session_edit(session_id=0):
-    if campaign_id > 0:
-        campaign = Campaign.query.get(campaign_id)
+    if session_id > 0:
+        gs = GameSession.query.get(session_id)
     else:
-        campaign = Campaign()
-        campaign.gs_id = session["rpg"].id
+        gs = GameSession()
+        gs.campaign_id = session["campaign"].id
 
-    form = CampaignForm()
+    form = SessionForm()
     if form.validate_on_submit():
-        campaign.title = form.title.data
-        db_session.add(campaign)
+        gs.title = form.title.data
+        gs.real_date = form.real_date.data
+        gs.world_date = form.world_date.data
+        gs.description = form.description.data
+        
+        db_session.add(gs)
         db_session.commit()
         
-        flash("Кампания {} успешно добавлена".format(campaign))
+        flash("Сессия {} успешно добавлена".format(gs))
         return redirect(url_for('session_list'))
-    form.title.data = campaign.title
-    return render_template("session/edit.html", form=form, campaign_id=campaign.id)
+
+    form.title.data = gs.title
+    form.real_date.data = gs.real_date
+    form.world_date.data = gs.real_date
+    form.description.data = gs.description
+    return render_template("session/edit.html", form=form, session_id=gs.id)
 
 
 @app.route("/session/del/<int:session_id>")
 def session_del(session_id):
-    campaign = Campaign.query.get(campaign_id) 
-    flash("Кампания {} успешно удалена".format(campaign))
-    db_session.delete(campaign)
+    gs = GameSession.query.get(session_id) 
+    flash("Сессия {} успешно удалена".format(gs))
+    db_session.delete(gs)
     db_session.commit()
         
     return redirect(url_for("session_list"))
@@ -54,13 +62,8 @@ def session_del(session_id):
 
 @app.route("/session/<int:session_id>")
 def session_show(session_id):
-    # rpg = current_rpg()
-    rpg = session.get("rpg", None)
-    if rpg is None:
-        return redirect(url_for('campaign_list'))
-
-    campaign = Campaign.query.get(campaign_id) 
-    session["campaign"] = campaign
+    gs = GameSession.query.get(session_id) 
+    session["session"] = gs
     
     return redirect(url_for("char_list"))
     # return render_template("campaigns.html", campaigns=campaigns, selected=games[rpg_id])

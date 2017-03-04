@@ -11,7 +11,7 @@ class CampaignForm(FlaskForm):
    
     
 class SessionForm(FlaskForm):
-    title = StringField("Заголовок", validators=[DataRequired()])
+    title = StringField("Заголовок")
     real_date = DateField('Реальная дата', format='%Y-%m-%d')    
     world_date = DateField('Игровая дата', format='%Y-%m-%d')
     description = TextAreaField('Описание')

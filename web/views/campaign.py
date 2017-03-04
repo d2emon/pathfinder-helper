@@ -55,11 +55,6 @@ def campaign_del(campaign_id):
 
 @app.route("/campaign/<int:campaign_id>")
 def campaign_show(campaign_id):
-    # rpg = current_rpg()
-    rpg = session.get("rpg", None)
-    if rpg is None:
-        return redirect(url_for('rpg_list'))
-
     campaign = Campaign.query.get(campaign_id) 
     session["campaign"] = campaign
     

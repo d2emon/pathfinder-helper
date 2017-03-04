@@ -40,4 +40,4 @@ class GameSession(Base):
     def __repr__(self):
         if self.title:
             return self.title
-        return self.real_date
+        return str(self.real_date)

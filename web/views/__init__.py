@@ -32,6 +32,7 @@ def char_del():
 
 @app.route("/char/<int:char_id>")
 def charsheet(char_id):
+    print(session["session"])
     if char_id <= 0:
         return redirect(url_for("char_list"))
 

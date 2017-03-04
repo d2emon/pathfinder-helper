@@ -7,7 +7,7 @@ from web import app
 from web.models import current_rpg
 
 from models.rpa import Campaign
-
+from db import db_session
 
 @app.route("/campaign")
 def campaign_list():
@@ -26,9 +26,13 @@ def campaign_add():
     return redirect(url_for("char_list"))
 
 
-@app.route("/campaign/del")
-def campaign_del():
-    return redirect(url_for("char_list"))
+@app.route("/campaign/del/<int:campaign_id>")
+def campaign_del(campaign_id):
+    campaign = Campaign.query.get(campaign_id) 
+    db_session.delete(campaign)
+    db_session.commit()
+        
+    return redirect(url_for("campaign_list"))
 
 
 @app.route("/campaign/<int:campaign_id>")

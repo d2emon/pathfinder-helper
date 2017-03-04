@@ -34,6 +34,5 @@ def select_rpg(rpg_id):
     if rpg_id <= 0:
         return redirect(url_for("rpg_list"))
 
-    rpg = current_rpg()
-    session["rpg"] = rpg
+    session["rpg"] = current_rpg()
     return redirect(url_for("campaign_list"))

@@ -5,10 +5,6 @@
   <a href="{{ url_for('rpg_add') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>Add</a>
   <a href="{{ url_for('rpg_del') }}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span><br>Del</a>
 </div>
-<div>
-  <p><strong>Current definition set selected:</strong> {{selected.name}}</p>
-  <p><strong>Current path:</strong> {{selected.path}}</p>
-</div>
 {% if games %}
 <ul>
   {% for rpg in games %}

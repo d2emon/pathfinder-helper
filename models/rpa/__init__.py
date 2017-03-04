@@ -41,3 +41,6 @@ class GameSystem:
         game.path = g.get("path", "db")
         game.website = g.get("website", "")
         return game
+    
+    def __repr__(self):
+        return "{} ({})".format(self.name, self.version)

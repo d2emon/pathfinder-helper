@@ -15,14 +15,7 @@ class GameSystem:
         self.version = "7.13"
         self.path = "db"
         self.website = ""
-        self.campaigns = []
-
-        import random
-        count = random.randrange(0, 10)
-        for i in range(count):
-            c_id = self.id * 16 + i
-            c_title = "Campaign {}".format(i)
-            self.campaigns.append(Campaign(c_id, c_title))
+        # self.campaigns = self.getCampaigns()
 
     @staticmethod
     def all():
@@ -44,3 +37,17 @@ class GameSystem:
     
     def __repr__(self):
         return "{} ({})".format(self.name, self.version)
+    
+    def getCampaigns(self):
+        filename = self.path + "/campaigns.txt"
+        print("filename", self.name, filename)
+        
+        import os
+        if not os.path.exists(filename):
+            return []
+
+        campaigns = []
+        with open(filename, "r") as campaigns_file:
+            for c_id, c_title in enumerate(campaigns_file.readlines()):
+                campaigns.append(Campaign(c_id + 1, c_title))
+        return campaigns

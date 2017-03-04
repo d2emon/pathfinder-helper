@@ -17,7 +17,7 @@ def campaign_list():
     print(rpg_id)
 
     rpg = current_rpg()
-    campaigns = rpg.campaigns
+    campaigns = rpg.getCampaigns()
     print(campaigns)
     return render_template("campaigns.html", campaigns=campaigns, selected=rpg)
 

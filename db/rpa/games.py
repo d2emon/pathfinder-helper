@@ -11,6 +11,7 @@ GAMES = [
     {"name": "Cyberpunk 2020"},
     {"name": "D20 Modern"},
     {"name": "In nomine"},
+    {"name": "Pathfinder", "version": "5.0", "path": "db/pathfinder"},
     {"name": "Rolemaster", "version": "2.0"},
     {"name": "StarWars (D6)"},
     {"name": "StarWars (D20)"},

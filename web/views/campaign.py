@@ -60,8 +60,7 @@ def session_list(campaign_id):
     if rpg is None:
         return redirect(url_for('rpg_list'))
 
-    campaign = rpg.getCampaign(campaign_id)
-    print(campaign)
+    campaign = Campaign.query.get(campaign_id) 
     session["campaign"] = campaign
     
     return redirect(url_for("char_list"))

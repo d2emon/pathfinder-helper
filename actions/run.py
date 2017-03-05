@@ -15,7 +15,7 @@ CMDS = {
     "adventure": adventure.main,
     "equipment": equipment.main,
 
-    "encounter": encounter.main,
+    "encounter": encounter.action,
     "generate": generate.action,
 }
 

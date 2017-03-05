@@ -65,7 +65,11 @@ def getCreatureType(landType):
     return "%s(%s)" % (c, g["title"])
 
 
-def main():
+def action(action_id):
+    return main()
+
+
+def main(**options):
     global LAND_TYPES
 
     logging.basicConfig(level=logging.DEBUG)

@@ -1,22 +1,18 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-
-
-import logging
-
-
 def main(id=0, options=dict()):  # pragma: no cover
     """
     Main helper function
     """
+    import logging
     import gui.menu
-    import actions
+    import actions.run
 
     logging.info("Starting helper")
-    actions.runAction(action=options.get("action", None), args=options.get("args", []))
+    actions.run.action(action=options.get("action", None), args=options.get("args", []))
 
     while True:
-        gui.menu.showMenu(items=actions.ACTIONS, func=actions.runById)
+        gui.menu.showMenu(items=actions.run.ACTIONS, func=actions.run.byId)
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -67,7 +67,7 @@ class Adventure():
         import random
 
         adventures = []
-        with open(filename) as f:
+        with open(filename, encoding="utf8") as f:
             adventures = f.readlines()
         self.__description = random.choice(adventures).rstrip()
 

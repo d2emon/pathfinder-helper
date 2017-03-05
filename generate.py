@@ -3,7 +3,6 @@
 
 
 import logging
-import sys
 import random
 
 import gui
@@ -56,19 +55,16 @@ def createChars(rooster=character.rooster.Rooster()):
     return rooster
 
 
-def main(argv):  # pragma: no cover
-    import getopt
+def action(action_id):
+    return main()
 
-    try:
-        parsed = gui.commandline.parseArgs(argv)
-    except(getopt.GetoptError):
-        parsed = dict()
-        gui.helpMessage()
+
+def main(**options):  # pragma: no cover
     logging.info("Starting generator")
 
-    ruleset.rules.rollMethod = parsed.get("rollMethod", gui.askRollMethod())
-    filename = parsed.get("filename", None)
-    count = parsed.get("count", None)
+    ruleset.rules.rollMethod = options.get("rollMethod", gui.askRollMethod())
+    filename = options.get("filename", None)
+    count = options.get("count", None)
     if count is None:
         count = gui.askCharsCount()
 
@@ -93,4 +89,14 @@ def main(argv):  # pragma: no cover
 
 
 if __name__ == "__main__":  # pragma: no cover
-    main(sys.argv[1:])
+    import sys
+    import getopt
+    import gui.commandline
+    
+    args = sys.argv[1:]
+    try:
+        parsed = gui.commandline.parseArgs(args)
+    except(getopt.GetoptError):
+        parsed = dict()
+        gui.helpMessage()
+    main(**parsed)

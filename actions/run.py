@@ -16,7 +16,7 @@ CMDS = {
     "equipment": equipment.main,
 
     "encounter": encounter.main,
-    "generate": generate.main,
+    "generate": generate.action,
 }
 
 

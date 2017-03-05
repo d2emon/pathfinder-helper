@@ -2,8 +2,6 @@
 # -*- coding:utf-8 -*-
 
 
-import logging
-import getopt
 
 import ruleset
 
@@ -12,9 +10,19 @@ def parseArgs(argv, action=False):
     """
     Parsing argv for arguments
     """
+    import getopt
     opts, args = getopt.getopt(argv, "hdl:c:r:f:", ["help", "debug", "logfile=", "count", "roll=", "file=", "logformat="])
 
+    import os
+    import logging
     logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
+    debug = os.environ.get('DEBUG', False)
+    print(debug)
+    if debug:
+        logconfig["level"] = logging.DEBUG
+        logconfig["filename"] = "debug.log"
+
+    
     options = dict()
     for opt, arg in opts:
         if opt in ("-h", "--help"):

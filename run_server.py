@@ -5,7 +5,7 @@ from web import app
 
 import os
 import logging
-# logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
+logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
 debug = os.environ.get('DEBUG', False)
 if debug:
     logging.getLogger().setLevel(logging.DEBUG)

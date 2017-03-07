@@ -1,4 +1,4 @@
-coverage==4.3.4
+coverage<4.0.0
 -e git://github.com/d2emon/pydice.git#egg=pydice
 SQLAlchemy==1.1.6
 alembic==0.9.1
@@ -6,5 +6,5 @@ Flask==0.12
 Flask-Session==0.3.1
 Flask-SQLAlchemy==2.2
 Flask-WTF==0.14.2
-pyyaml
-pytest-flask
+PyYaml==3.12
+pytest-flask==0.10.0

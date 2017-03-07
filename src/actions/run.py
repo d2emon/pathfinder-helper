@@ -47,16 +47,14 @@ ACTIONS = [
 
 def action(action=None, args=[]):
     if action is None:
-        return 0
+        return False
 
     a = CMDS.get(action, None)
     logging.debug("Running %s", action)
     if a is None:
         gui.helpMessage()
     a(0, args)
-
-    import sys
-    sys.exit(0)
+    return True
 
 
 def byId(actionId):

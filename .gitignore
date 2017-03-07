@@ -65,6 +65,7 @@ target/
 
 /venv/
 *.yml
+/.settings
 /.project
 /.pydevproject
 /flask_session

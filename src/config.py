@@ -6,3 +6,4 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 SECRET_KEY = "some key"
 SESSION_TYPE = "filesystem"
+SESSION_FILE_DIR = "../flask_session"

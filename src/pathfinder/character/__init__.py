@@ -3,21 +3,21 @@
 
 
 import logging
-import ruleset
-import abilities
-import race
-import charclass
+import pathfinder.ruleset
+import pathfinder.abilities
+import pathfinder.race
+import pathfinder.charclass
 
-import character.gender
+from pathfinder.character import gender
 
 
 STATS = {
-    "STR": {"class": abilities.Ability, "dices": 3},
-    "DEX": {"class": abilities.Ability, "dices": 3},
-    "CON": {"class": abilities.Ability, "dices": 3},
-    "INT": {"class": abilities.SpellAbility, "dices": 3},
-    "WIS": {"class": abilities.Ability, "dices": 3},
-    "CHA": {"class": abilities.Ability, "dices": 3},
+    "STR": {"class": pathfinder.abilities.Ability, "dices": 3},
+    "DEX": {"class": pathfinder.abilities.Ability, "dices": 3},
+    "CON": {"class": pathfinder.abilities.Ability, "dices": 3},
+    "INT": {"class": pathfinder.abilities.SpellAbility, "dices": 3},
+    "WIS": {"class": pathfinder.abilities.Ability, "dices": 3},
+    "CHA": {"class": pathfinder.abilities.Ability, "dices": 3},
 }
 
 VISION = {
@@ -37,7 +37,7 @@ class Char():
         "deity": "Unknown",
         "homeland": "Homeland",
         "size": 0,
-        "gender": character.gender.UNKNOWN_ID,
+        "gender": gender.UNKNOWN_ID,
         "age": 0,
         "height": 0,
         "weight": 0,
@@ -60,13 +60,12 @@ class Char():
     def __init__(self, **args):
         logging.debug("Character data are: %s", args)
 
-        self.abilities = {s: d["class"]() for  s, d in STATS.items()}
+        self.abilities = {s: d["class"]() for s, d in STATS.items()}
         self.vision = args.get("vision", VISION.copy())
         self.resetClasses()
 
         for a in self.default:
             setattr(self, a, args.get(a, self.default[a]))
-
 
         stats = args.get("stats", dict())
         logging.debug("Stats are: %s", stats)
@@ -77,11 +76,11 @@ class Char():
         #     rollPool = {s: d["dices"] for s, d in STATS.items()}
         # self.roll(rollPool)
 
-        self.raceById(args.get("raceId", race.UNKNOWN_ID))
-        self.classById(args.get("classId", charclass.UNSET_ID))
+        self.raceById(args.get("raceId", pathfinder.race.UNKNOWN_ID))
+        self.classById(args.get("classId", pathfinder.charclass.UNSET_ID))
 
     def roll(self, pool=None):
-        [ruleset.rules.rollAbility(a, pool) for a in self.abilities.values()]
+        [pathfinder.ruleset.rules.rollAbility(a, pool) for a in self.abilities.values()]
 
     def fill(self, **named):
         for i, a in enumerate(named):
@@ -89,15 +88,15 @@ class Char():
         logging.debug("Abilities are: %s", self.abilities)
 
     def raceById(self, id):
-        r = race.raceById(id)
+        r = pathfinder.race.raceById(id)
         logging.debug(r.name)
         self.race = r
         return r
 
     def classById(self, id, level=1):
-        if id == charclass.UNSET_ID:
+        if id == pathfinder.charclass.UNSET_ID:
             return None
-        c = charclass.classById(id)
+        c = pathfinder.charclass.classById(id)
         logging.debug(c.name)
         favoured = c.id in self.favClass
         self.charClass[c.id] = {"class": c, "level": level, "favoured": favoured}
@@ -116,7 +115,7 @@ class Char():
 
     def setRace(self, value):
         if value is None:
-            value = race.Race()
+            value = pathfinder.race.Race()
 
         self.__race = value
         for i, a in self.abilities.items():

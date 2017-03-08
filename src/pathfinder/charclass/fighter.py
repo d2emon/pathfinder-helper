@@ -2,15 +2,15 @@
 # -*- coding:utf-8 -*-
 
 
-import charclass.baseclass
+from pathfinder.charclass.baseclass import CharClass
 
 
 BRB_ID = 101
 
 
-class Barbarian(charclass.baseclass.CharClass):
+class Barbarian(CharClass):
     def __init__(self):
-        charclass.baseclass.CharClass.__init__(self)
+        CharClass.__init__(self)
         self.id = BRB_ID
         self.name = "Barbarian"
         self.alignments = [(x, y) for x in range(-1, 0) for y in range(-1, 1)]

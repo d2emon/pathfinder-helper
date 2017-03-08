@@ -10,7 +10,7 @@ import pathfinder.character.rooster
 
 class TestRooster(unittest.TestCase):
     def setUp(self):
-        self.rooster = pathfinder.characte.rooster.Rooster()
+        self.rooster = pathfinder.character.rooster.Rooster()
 
     def testOtherRuleset(self):
         '''

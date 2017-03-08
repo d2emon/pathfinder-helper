@@ -1,27 +1,34 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
+
+
 def main(id=0, options=dict()):  # pragma: no cover
     """
     Main helper function
     """
     import logging
-    import sys
-    import gui.menu
-    import actions.run
-
     logging.info("Starting helper")
-    res = actions.run.action(action=options.get("action", None), args=options.get("args", []))
-    if res:
-        sys.exit(0)
 
+    action = options.get("action", None)
+    args = options.get("args", [])
+
+    from gui.menu import showMenu
+
+    from actions import runAction
+    from actions import runById
+    from actions.run import ACTIONS
+    if action is not None:
+        return runAction(action, *args)
 
     while True:
-        gui.menu.showMenu(items=actions.run.ACTIONS, func=actions.run.byId)
+        showMenu(items=ACTIONS, func=runById)
+    return True
 
 
 if __name__ == "__main__":  # pragma: no cover
     import sys
     import getopt
+    import gui
     import gui.commandline
 
     try:
@@ -29,4 +36,8 @@ if __name__ == "__main__":  # pragma: no cover
     except(getopt.GetoptError):
         gui.helpMessage()
 
-    main(options=options)
+    run_code = main(options=options)
+    if run_code:
+        sys.exit(0)
+    else:
+        gui.helpMessage()

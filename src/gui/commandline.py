@@ -16,7 +16,6 @@ def parseArgs(argv, action=False):
     import logging
     logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
     debug = os.environ.get('DEBUG', False)
-    print(debug)
     if debug:
         logconfig["level"] = logging.DEBUG
         logconfig["filename"] = "debug.log"

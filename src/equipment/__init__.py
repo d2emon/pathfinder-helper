@@ -32,11 +32,12 @@ ITEM_TYPES = {
     "statue": "v18",
 }
 
+
 class ArtObject(EquipmentItem):
-    TYPE_FILENAME = "db/item_types.yml"
-    CONDITION_FILENAME = "db/conditions.yml"
-    AGE_FILENAME = "db/item_age.yml"
-    PRICE_FILENAME = "db/item_price.yml"
+    TYPE_FILENAME = "../db/items/item_types.yml"
+    CONDITION_FILENAME = "../db/items/conditions.yml"
+    AGE_FILENAME = "../db/items/item_age.yml"
+    PRICE_FILENAME = "../db/items/item_price.yml"
 
     def __init__(self):
         self.description = ""

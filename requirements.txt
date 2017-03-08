@@ -8,3 +8,4 @@ Flask-SQLAlchemy==2.2
 Flask-WTF==0.14.2
 PyYaml==3.12
 pytest-flask==0.10.0
+mock

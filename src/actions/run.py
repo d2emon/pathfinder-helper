@@ -1,18 +1,18 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-import adventure
-import equipment
-import encounter
+import gen.adventure
+import gen.equipment
+import gen.encounter
 import generate
 
 import actions.editions
 
 
 CMDS = {
-    "adventure": adventure.main,
-    "equipment": equipment.main,
+    "adventure": gen.adventure.main,
+    "equipment": gen.equipment.main,
 
-    "encounter": encounter.action,
+    "encounter": gen.encounter.action,
     "generate": generate.action,
 }
 

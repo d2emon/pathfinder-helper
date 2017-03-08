@@ -7,13 +7,13 @@ import random
 
 import gui
 import gui.commandline
-import ruleset
-import race
+import pathfinder.ruleset
+import pathfinder.race
 
 
-import charsheet
-import character.rooster
-import charclass
+import pathfinder.charsheet
+import pathfinder.character.rooster
+import pathfinder.charclass
 
 
 def pickClass(chars=[], classes=[]):
@@ -40,16 +40,16 @@ def finishDetails(chars=[]):
     return []
 
 
-def createChars(rooster=character.rooster.Rooster()):
+def createChars(rooster=pathfinder.character.rooster.Rooster()):
     logging.debug("generate.createChars():Rooster %s", rooster)
     for c in rooster.chars:
         print("-" * 80)
-        charsheet.showChar(c)
+        pathfinder.charsheet.showChar(c)
     print("-" * 80)
     for i in range(1, 11):
-        l = charclass.Level(i)
+        l = pathfinder.charclass.Level(i)
         print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
-    l = charclass.xpToLevel(10000)
+    l = pathfinder.charclass.xpToLevel(10000)
     print("%d\t%d\t%s\t%s\t%s" % (i, l.toNext(), l.ability, l.skill, l.feat))
 
     return rooster
@@ -62,19 +62,19 @@ def action(action_id):
 def main(**options):  # pragma: no cover
     logging.info("Starting generator")
 
-    ruleset.rules.rollMethod = options.get("rollMethod", gui.askRollMethod())
+    pathfinder.ruleset.rules.rollMethod = options.get("rollMethod", gui.askRollMethod())
     filename = options.get("filename", None)
     count = options.get("count", None)
     if count is None:
         count = gui.askCharsCount()
 
-    rooster = character.rooster.Rooster()
+    rooster = pathfinder.character.rooster.Rooster()
     rooster.load(filename)
     rooster.add(count=count)
     rooster.defineAbility()
 
-    races = [random.choice(list(race.RACES.keys())) for i in rooster.chars]
-    classes = [random.choice(list(charclass.CLASSES.keys())) for i in rooster.chars]
+    races = [random.choice(list(pathfinder.race.RACES.keys())) for i in rooster.chars]
+    classes = [random.choice(list(pathfinder.charclass.CLASSES.keys())) for i in rooster.chars]
 
     logging.info("Pick Your Race")
     rooster.pickRace(races)
@@ -91,8 +91,8 @@ def main(**options):  # pragma: no cover
 if __name__ == "__main__":  # pragma: no cover
     import sys
     import getopt
-    import gui.commandline
-    
+    # import gui.commandline
+
     args = sys.argv[1:]
     try:
         parsed = gui.commandline.parseArgs(args)

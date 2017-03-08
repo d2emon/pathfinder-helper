@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 
-import ruleset
+import pathfinder.ruleset
 
 
 def parseArgs(argv, action=False):
@@ -35,9 +35,9 @@ def parseArgs(argv, action=False):
             options["count"] = int(arg)
         elif opt in ("-r", "--roll"):
             methods = {
-                "standard": ruleset.roll.STANDARD,
-                "classic": ruleset.roll.CLASSIC,
-                "heroic": ruleset.roll.HEROIC,
+                "standard": pathfinder.ruleset.roll.STANDARD,
+                "classic": pathfinder.ruleset.roll.CLASSIC,
+                "heroic": pathfinder.ruleset.roll.HEROIC,
             }
             options["rollMethod"] = methods[arg]
         elif opt in ("-f", "--file"):

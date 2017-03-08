@@ -5,25 +5,25 @@
 import unittest
 import random
 
-import character.rooster
+import pathfinder.character.rooster
 
 
 class TestRooster(unittest.TestCase):
     def setUp(self):
-        self.rooster = character.rooster.Rooster()
+        self.rooster = pathfinder.characte.rooster.Rooster()
 
     def testOtherRuleset(self):
         '''
         Ensure that rooster get proper ruleset
         '''
-        import ruleset
+        import pathfinder.ruleset
 
-        rs = ruleset.Ruleset(rollMethod=random.choice([
-            ruleset.roll.CLASSIC,
-            ruleset.roll.STANDARD,
-            ruleset.roll.HEROIC,
+        rs = pathfinder.ruleset.Ruleset(rollMethod=random.choice([
+            pathfinder.ruleset.roll.CLASSIC,
+            pathfinder.ruleset.roll.STANDARD,
+            pathfinder.ruleset.roll.HEROIC,
         ]))
-        r = character.rooster.Rooster(default={"ruleset": rs})
+        r = pathfinder.character.rooster.Rooster(default={"ruleset": rs})
         self.assertEqual(r.default["ruleset"], rs)
 
     def testAdd(self):

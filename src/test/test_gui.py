@@ -44,4 +44,4 @@ def test_bye():
 
 def test_ask_help_message():
     with pytest.raises(SystemExit) as excinfo:
-        assert isinstance(gui.helpMessage(), int)  
+        assert isinstance(gui.helpMessage(), int)

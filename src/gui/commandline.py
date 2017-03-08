@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 
 
-
 import ruleset
 
 
@@ -22,7 +21,6 @@ def parseArgs(argv, action=False):
         logconfig["level"] = logging.DEBUG
         logconfig["filename"] = "debug.log"
 
-    
     options = dict()
     for opt, arg in opts:
         if opt in ("-h", "--help"):

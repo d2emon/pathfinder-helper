@@ -4,14 +4,14 @@
 
 import dice
 
-import ruleset.level
-import ruleset.roll
-
 
 class Ruleset():
     def __init__(self, **args):
-        self.rollMethod = args.get("rollMethod", ruleset.roll.STANDARD)
-        self.levelUp = args.get("levelUp", ruleset.level.NORMAL)
+        from pathfinder.ruleset.level import NORMAL
+        from pathfinder.ruleset.roll import STANDARD
+
+        self.rollMethod = args.get("rollMethod", STANDARD)
+        self.levelUp = args.get("levelUp", NORMAL)
 
     def rollAbility(self, ability, pool):
         ability.value = dice.d(**self.rollMethod)

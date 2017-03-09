@@ -5,7 +5,7 @@
 import logging
 import yaml
 
-import character
+import pathfinder.character
 
 
 class Rooster():
@@ -23,7 +23,7 @@ class Rooster():
         data = list(data) + [charData for i in range(len(data), count)]
 
         logging.debug("Loading: %s", data)
-        [self.chars.append(character.Char(**d)) for d in data]
+        [self.chars.append(pathfinder.character.Char(**d)) for d in data]
         return self.chars
 
     def load(self, filename=None):

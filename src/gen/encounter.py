@@ -29,7 +29,7 @@ class LandType():
             self.groups = []
 
     def loadFromFile(self, filename):
-        with open(filename) as f:
+        with open("../" + filename) as f:
             return yaml.load(f)
 
     def randomGroup(self):
@@ -73,7 +73,7 @@ def main(**options):
     global LAND_TYPES
 
     logging.basicConfig(level=logging.DEBUG)
-    with open("db/lands.dat") as f:
+    with open("../db/lands.dat") as f:
         LAND_TYPES = [LandType(s) for s in f.readlines()]
     while True:
         hs = gui.askHours()

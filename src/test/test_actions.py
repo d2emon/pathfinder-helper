@@ -5,7 +5,9 @@ Testing actions
 """
 
 import unittest
-import actions.run
+import mock
+import random
+import actions
 import actions.editions
 
 
@@ -14,105 +16,107 @@ class TestActions(unittest.TestCase):
         '''
         Ensure that returns False on no action
         '''
-        self.assertFalse(actions.run.action(action=None, args=[]))
-
+        self.assertFalse(actions.runAction(None))
 
     def testBadAction(self):
         '''
         Ensure that returns False on bad action
         '''
-        self.assertFalse(actions.run.action(action="bad_action", args=[]))
-
+        self.assertFalse(actions.runAction("bad_action"))
 
     def testAdventureAction(self):
         '''
         Ensure that returns False on adventure
         '''
-        self.assertFalse(actions.run.action(action='adventure', args=[]), "Wrong adventure action")
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.runAction('adventure'), "Wrong adventure action")
 
     def testEquipmentAction(self):
         '''
         Ensure that returns False on equipment
         '''
-        self.assertFalse(actions.run.action(action='equipment', args=[]), "Wrong equipment action")
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.runAction('equipment'), "Wrong equipment action")
 
     def testEncounterAction(self):
         '''
         Ensure that returns False on encounter
         '''
-        self.assertFalse(actions.run.action(action='encounter', args=[]), "Wrong encounter action")
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.runAction('encounter'), "Wrong encounter action")
 
     def testGenerateAction(self):
         '''
         Ensure that returns False on generate
         '''
-        self.assertFalse(actions.run.action(action='generate', args=[]), "Wrong generate action")
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.runAction('generate'), "Wrong generate action")
 
     def testByIdNegative(self):
         '''
         Ensure that returns False on negative action id
         '''
-        self.assertFalse(actions.run.byId(-1))
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                actions.runById(-1)
 
     def testByIdPositive(self):
         '''
         Ensure that returns False on positive action id
         '''
-        import random
-        action_id = random.randint(0, len(actions.run.ACTIONS))
-        self.assertEquals(actions.run.byId(action_id), action_id)
-
+        import actions.run
+        action_id = random.randrange(1, len(actions.run.ACTIONS))
+        self.assertFalse(actions.runById(action_id))
 
     def testByIdBig(self):
         '''
         Ensure that returns False on big action id
         '''
-        self.assertFalse(actions.run.byId(256))
-
+        with self.assertRaises(IndexError):
+            actions.runById(256)
 
     def testPathfinder(self):
         '''
         Ensure that returns False using Pathfinder
         '''
-        import random
-        self.assertFalse(actions.editions.pathfinder(random.randint(-255, 255)))
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.editions.pathfinder(random.randint(-255, 255)))
 
     def testDnd(self):
         '''
         Ensure that returns False using DnD
         '''
-        import random
-        self.assertFalse(actions.editions.dnd(random.randint(-255, 255)))
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.editions.dnd(random.randint(-255, 255)))
 
     def testCyclo(self):
         '''
         Ensure that returns False using Cyclo
         '''
-        import random
-        self.assertFalse(actions.editions.cyclo(random.randint(-255, 255)))
-
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.editions.cyclo(random.randint(-255, 255)))
 
     def testBookSelection(self):
         '''
         Ensure that returns False on selecting book
         '''
-        import random
-        self.assertFalse(actions.editions.selectBook(random.randint(-255, 255)))
-
+        with self.assertRaises(IndexError):
+            actions.editions.selectBook(random.randint(-255, 255))
 
     def testMenu(self):
         '''
         Ensure that returns False on entering menu
         '''
-        import random
-        self.assertFalse(actions.editions.menu(random.randint(-255, 255)))
+        with mock.patch('builtins.input', return_value='0'):
+            with self.assertRaises(SystemExit):
+                self.assertFalse(actions.editions.menu(random.randint(-255, 255)))
 
 
 def main():

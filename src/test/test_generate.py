@@ -6,12 +6,12 @@ import unittest
 import getopt
 
 import generate
-import character.rooster
+import pathfinder.character.rooster
 
 
 class TestGenerateFunctions(unittest.TestCase):
     def setUp(self):
-        self.rooster = character.rooster.Rooster()
+        self.rooster = pathfinder.character.rooster.Rooster()
         self.rooster.add(count=5)
 
     def testWrongArgs(self):

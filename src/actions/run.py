@@ -1,21 +1,18 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-import logging
-import gui
-
-import adventure
-import equipment
-import encounter
+import gen.adventure
+import gen.equipment
+import gen.encounter
 import generate
 
 import actions.editions
 
 
 CMDS = {
-    "adventure": adventure.main,
-    "equipment": equipment.main,
+    "adventure": gen.adventure.main,
+    "equipment": gen.equipment.main,
 
-    "encounter": encounter.action,
+    "encounter": gen.encounter.action,
     "generate": generate.action,
 }
 
@@ -43,23 +40,3 @@ ACTIONS = [
     {"title": "Generator", "action": CMDS["generate"], "id": 20},
     {"title": "Book", "action": actions.editions.menu, "id": 21},
 ]
-
-
-def action(action=None, args=[]):
-    if action is None:
-        return False
-
-    a = CMDS.get(action, None)
-    logging.debug("Running %s", action)
-    if a is None:
-        gui.helpMessage()
-    a(0, args)
-    return True
-
-
-def byId(actionId):
-    a = ACTIONS[actionId].get("action", None)
-    if a is not None:
-        return a(actionId)
-    return actionId
-

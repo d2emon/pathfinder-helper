@@ -5,6 +5,7 @@ Testing GUI
 import mock
 import pytest
 import gui
+import gui.menu
 
 
 def test_ask_chars_count_int():
@@ -44,4 +45,10 @@ def test_bye():
 
 def test_ask_help_message():
     with pytest.raises(SystemExit) as excinfo:
-        assert isinstance(gui.helpMessage(), int)  
+        assert isinstance(gui.helpMessage(), int)
+
+
+def test_menu():
+    with mock.patch('builtins.input', return_value='1'):
+        with pytest.raises(SystemExit) as excinfo:
+            assert isinstance(gui.menu.showMenu("title", [{"title": 1, }, {"a": "b", }, 2, 3, ], gui.bye), int)

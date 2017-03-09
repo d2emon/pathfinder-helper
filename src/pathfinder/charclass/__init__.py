@@ -2,9 +2,9 @@
 # -*- coding:utf-8 -*-
 
 
-import ruleset
-import charclass.baseclass
-import charclass.fighter
+import pathfinder.ruleset
+import pathfinder.charclass.baseclass
+import pathfinder.charclass.fighter
 
 
 class Level():
@@ -12,7 +12,7 @@ class Level():
         self.level = level
 
     def toNext(self):
-        return ruleset.rules.levelUp[self.level]
+        return pathfinder.ruleset.rules.levelUp[self.level]
 
     def getFeat(self):
         return (self.level % 2) == 1
@@ -29,7 +29,7 @@ class Level():
 
 
 def xpToLevel(xp):
-    for l, tolup in enumerate(ruleset.rules.levelUp):
+    for l, tolup in enumerate(pathfinder.ruleset.rules.levelUp):
         if xp < tolup:
             return Level(l)
 
@@ -39,9 +39,13 @@ UNKNOWN_ID = 0
 
 
 def classById(id):
-    return CLASSES.get(id, charclass.baseclass.CharClass)()
+    return CLASSES.get(id, pathfinder.charclass.baseclass.CharClass)()
+
+
+from pathfinder.charclass.fighter import BRB_ID
+from pathfinder.charclass.fighter import Barbarian
 
 
 CLASSES = {
-    charclass.fighter.BRB_ID: charclass.fighter.Barbarian,
+    BRB_ID: Barbarian,
 }

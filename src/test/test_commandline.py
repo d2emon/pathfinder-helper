@@ -24,7 +24,7 @@ def test_logfile():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
         gui.commandline.parseArgs(["-l", "../log/logtest.log", ])
-        gui.commandline.parseArgs(["--logfile", "logtest.log", ])
+        gui.commandline.parseArgs(["--logfile", "../log/logtest.log", ])
 
 
 def test_logformat():
@@ -50,11 +50,11 @@ def test_roll():
 def test_file():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-f", "filename.test", ])
-        gui.commandline.parseArgs(["--file", "filename.test", ])
+        gui.commandline.parseArgs(["-f", "../log/filename.test", ])
+        gui.commandline.parseArgs(["--file", "../log/filename.test", ])
 
 
 def test_actions():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-l", "filename.test", ], True)
+        gui.commandline.parseArgs(["-l", "../log/filename.test", ], True)

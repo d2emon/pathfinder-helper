@@ -4,18 +4,42 @@
 
 import pathfinder.ruleset
 
+DEBUG = False
+
 
 def logOptions(options):
-    logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
-    filename = [
-        options.get("-l", None),
-        options.get("--logfile", None),
-    ]
-    logformat = options.get("--logformat", None)
+    import logging
+    logger = logging.getLogger('helper')
+
+    filename = None
+
+    # Set log file name
+    filename = options.get("-l")
+    if filename is None:
+        filename = options.get("--logfile")
+
+    # Set log format
+    logformat = "%(asctime)s: [%(levelname)s]:\t%(message)s"
+    logformat = options.get("--logformat", logformat)
+
+    config = dict()
     if filename is not None:
-        logconfig["filename"] = filename
+        config["filename"] = filename
+        fh = logging.FileHandler(filename)
+        logger.addHandler(fh)
     if logformat is not None:
-        logconfig["format"] = logformat
+        config["format"] = logformat
+
+    print(config)
+    # logging.basicConfig(**config)
+
+    if DEBUG:
+        debug_fh = logging.FileHandler('log/debug.log')
+        debug_fh.setLevel(logging.DEBUG)
+        logger.addHandler(debug_fh)
+
+    logging.debug("Debug message")
+    logging.error("Error message")
 
 
 def parseArgs(argv, action=False):
@@ -25,24 +49,19 @@ def parseArgs(argv, action=False):
     import getopt
     opts, args = getopt.getopt(argv, "hdl:c:r:f:", ["help", "debug", "logfile=", "count", "roll=", "file=", "logformat="])
 
+    options = {opt: arg for opt, arg in opts}
+
+    # Entering debug mode
     import os
-    import logging
-    logconfig = {"format": "%(asctime)s: [%(levelname)s]:\t%(message)s"}
-    debug = os.environ.get('DEBUG', False)
-    if debug:
-        logconfig["level"] = logging.DEBUG
-        logconfig["filename"] = "debug.log"
+    global DEBUG
+    DEBUG = os.environ.get('DEBUG', DEBUG)
+    if any(key in options.keys() for key in ("-d", "--debug")):
+        DEBUG = True
 
-    options = dict()
-    o = {opt: arg for opt, arg in opts}
     logOptions(options)
-
-    print("OPTS: ", opts, o)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             raise getopt.GetoptError("")
-        elif opt in ("-d", "--debug"):
-            logconfig["level"] = logging.DEBUG
         elif opt in ("-c", "--count"):
             options["count"] = int(arg)
         elif opt in ("-r", "--roll"):
@@ -52,12 +71,9 @@ def parseArgs(argv, action=False):
                 "heroic": pathfinder.ruleset.roll.HEROIC,
             }
             options["rollMethod"] = methods[arg]
-        elif opt in ("-f", "--file"):
-            options["filename"] = arg
     if len(args) > 0:
         if action:
             options["action"] = args.pop(0)
         options["args"] = args
 
-    logging.basicConfig(**logconfig)
     return options

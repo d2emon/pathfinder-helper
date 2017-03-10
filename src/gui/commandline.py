@@ -9,35 +9,45 @@ DEBUG = False
 
 def logOptions(options):
     import logging
-    logger = logging.getLogger('helper')
+    logger = logging.getLogger()
+    config = dict()
 
-    # Set log file name
-    filename = options.get("-l")
-    if filename is None:
-        filename = options.get("--logfile")
+    # Default values
+    filename = None
+    logformat = "%(asctime)s: [%(levelname)s]:\t%(message)s"
 
     # Set log format
-    logformat = "%(asctime)s: [%(levelname)s]:\t%(message)s"
     logformat = options.get("--logformat", logformat)
+    config['format'] = logformat
+    formatter = logging.Formatter(logformat)
 
-    config = dict()
-    if filename is not None:
-        config["filename"] = filename
-        fh = logging.FileHandler(filename)
-        logger.addHandler(fh)
-    if logformat is not None:
-        config["format"] = logformat
-
-    print(config)
-    # logging.basicConfig(**config)
-
+    # Debug mode
     if DEBUG:
-        debug_fh = logging.FileHandler('log/debug.log')
-        debug_fh.setLevel(logging.DEBUG)
-        logger.addHandler(debug_fh)
+        config['level'] = logging.DEBUG
+        filename = 'log/debug.log'
+        
+        logger.setLevel(config['level'])
 
-    logging.debug("Debug message")
-    logging.error("Error message")
+        handler = logging.StreamHandler()
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    # Set log file name
+    filename = options.get("-l", filename)
+    if filename is None:
+        filename = options.get("--logfile")
+    else:
+        config['filename'] = filename
+
+    # Setting up handlers
+    if filename is not None:
+        handler = logging.FileHandler(filename)
+    else:
+        handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    logging.basicConfig(**config)
 
 
 def parseArgs(argv, action=False):

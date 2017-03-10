@@ -11,8 +11,6 @@ def logOptions(options):
     import logging
     logger = logging.getLogger('helper')
 
-    filename = None
-
     # Set log file name
     filename = options.get("-l")
     if filename is None:

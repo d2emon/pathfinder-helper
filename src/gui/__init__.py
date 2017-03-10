@@ -6,8 +6,12 @@ Gui methods
 """
 
 
-# import logging
+import logging
 import gui.menu
+
+
+logger = logging.getLogger('gui')
+DEBUG = False
 
 
 def askCharsCount():

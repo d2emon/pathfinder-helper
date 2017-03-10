@@ -2,14 +2,13 @@
 # -*- coding:utf-8 -*-
 
 
+import gui
 import pathfinder.ruleset
 
-DEBUG = False
 
-
-def logOptions(options):
+def setupLog(options):
     import logging
-    logger = logging.getLogger()
+    # logger = logging.getLogger()
     config = dict()
 
     # Default values
@@ -22,30 +21,29 @@ def logOptions(options):
     formatter = logging.Formatter(logformat)
 
     # Debug mode
-    if DEBUG:
+    if gui.DEBUG:
         config['level'] = logging.DEBUG
         filename = 'log/debug.log'
         
-        logger.setLevel(config['level'])
+        gui.logger.setLevel(config['level'])
 
         handler = logging.StreamHandler()
         handler.setFormatter(formatter)
-        logger.addHandler(handler)
+        gui.logger.addHandler(handler)
 
     # Set log file name
     filename = options.get("-l", filename)
     if filename is None:
         filename = options.get("--logfile")
-    else:
-        config['filename'] = filename
 
     # Setting up handlers
     if filename is not None:
+        config['filename'] = filename
         handler = logging.FileHandler(filename)
     else:
         handler = logging.StreamHandler()
     handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    gui.logger.addHandler(handler)
 
     logging.basicConfig(**config)
 
@@ -61,12 +59,11 @@ def parseArgs(argv, action=False):
 
     # Entering debug mode
     import os
-    global DEBUG
-    DEBUG = os.environ.get('DEBUG', DEBUG)
+    gui.DEBUG = os.environ.get('DEBUG', gui.DEBUG)
     if any(key in options.keys() for key in ("-d", "--debug")):
-        DEBUG = True
+        gui.DEBUG = True
 
-    logOptions(options)
+    setupLog(options)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             raise getopt.GetoptError("")

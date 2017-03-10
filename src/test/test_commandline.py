@@ -23,7 +23,7 @@ def test_loglevel():
 def test_logfile():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-l", "logtest.log", ])
+        gui.commandline.parseArgs(["-l", "../log/logtest.log", ])
         gui.commandline.parseArgs(["--logfile", "logtest.log", ])
 
 

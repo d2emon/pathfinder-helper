@@ -16,7 +16,7 @@ def main(id=0, options=dict()):  # pragma: no cover
 
     from actions import runAction
     from actions import runById
-    from actions.run import ACTIONS
+    from actions.data import ACTIONS
     if action is not None:
         return runAction(action, *args)
 
@@ -31,10 +31,7 @@ if __name__ == "__main__":  # pragma: no cover
     import gui
     import gui.commandline
 
-    try:
-        options = gui.commandline.parseArgs(sys.argv[1:], action=True)
-    except(getopt.GetoptError):
-        gui.helpMessage()
+    options = gui.commandline.parseArgs(sys.argv[1:], action=True)
 
     run_code = main(options=options)
     if run_code:

@@ -39,6 +39,9 @@ def test_loglevel():
 def test_help_message():
     with pytest.raises(SystemExit) as excinfo:
         gui.commandline.parseArgs(["-h", ])
+    assert excinfo is not None
+
+    with pytest.raises(SystemExit) as excinfo:
         gui.commandline.parseArgs(["--help", ])
     assert excinfo is not None
 
@@ -52,17 +55,10 @@ def test_count():
 
 def test_roll():
     import getopt
-    method = "stndard"
+    method = "standard"
     with pytest.raises(getopt.GetoptError) as excinfo:
         gui.commandline.parseArgs(["-r", method, ])
         gui.commandline.parseArgs(["--roll={}".format(method), ])
-
-
-def test_file():
-    import getopt
-    with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-f", LOGFILE, ])
-        gui.commandline.parseArgs(["--file={}".format(LOGFILE), ])
 
 
 def test_actions():

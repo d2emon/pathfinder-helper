@@ -68,8 +68,8 @@ class TestActions(unittest.TestCase):
         '''
         Ensure that returns False on positive action id
         '''
-        import actions.run
-        action_id = random.randrange(1, len(actions.run.ACTIONS))
+        import actions.data
+        action_id = random.randrange(1, len(actions.data.ACTIONS))
         self.assertFalse(actions.runById(action_id))
 
     def testByIdBig(self):

@@ -2,8 +2,8 @@
 # -*- coding:utf-8 -*-
 
 
-from actions.run import ACTIONS
-from actions.run import CMDS
+from actions.data import ACTIONS
+from actions.data import CMDS
 
 
 def runAction(action, *args):
@@ -17,8 +17,7 @@ def runAction(action, *args):
     if cmd is None:
         return False
 
-    cmd(0, *args)
-    return True
+    return cmd(0, *args)
 
 
 def runById(actionId):

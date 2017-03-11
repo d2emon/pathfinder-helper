@@ -1,12 +1,16 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-
+"""
+Commandline parser
+"""
 
 import gui
-import pathfinder.ruleset
 
 
 def setupLog(options):
+    """
+    Setting up logger
+    """
     import logging
     # logger = logging.getLogger()
     config = dict()
@@ -46,6 +50,7 @@ def setupLog(options):
     gui.logger.addHandler(handler)
 
     logging.basicConfig(**config)
+    return gui.logger
 
 
 def parseArgs(argv, action=False):
@@ -70,6 +75,7 @@ def parseArgs(argv, action=False):
         elif opt in ("-c", "--count"):
             options["count"] = int(arg)
         elif opt in ("-r", "--roll"):
+            import pathfinder.ruleset
             methods = {
                 "standard": pathfinder.ruleset.roll.STANDARD,
                 "classic": pathfinder.ruleset.roll.CLASSIC,

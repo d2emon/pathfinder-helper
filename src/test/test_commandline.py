@@ -3,8 +3,17 @@ Testing Commandline
 """
 
 import pytest
+import gui
 import gui.commandline
 
+
+LOGPATH = "../log/{}"
+
+
+def test_log_setup():
+    logger = gui.commandline.setupLog({'filename': LOGPATH.format("logfile.log")})
+    assert logger == gui.logger
+    
 
 def test_help_message():
     import getopt
@@ -23,8 +32,8 @@ def test_loglevel():
 def test_logfile():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-l", "../log/logtest.log", ])
-        gui.commandline.parseArgs(["--logfile", "../log/logtest.log", ])
+        gui.commandline.parseArgs(["-l", LOGPATH.format("logtest.log"), ])
+        gui.commandline.parseArgs(["--logfile", LOGPATH.format("logtest.log"), ])
 
 
 def test_logformat():
@@ -50,11 +59,11 @@ def test_roll():
 def test_file():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-f", "../log/filename.test", ])
-        gui.commandline.parseArgs(["--file", "../log/filename.test", ])
+        gui.commandline.parseArgs(["-f", LOGPATH.format("filename.test"), ])
+        gui.commandline.parseArgs(["--file", LOGPATH.format("filename.test"), ])
 
 
 def test_actions():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-l", "../log/filename.test", ], True)
+        gui.commandline.parseArgs(["-l", LOGPATH.format("filename.test"), ], True)

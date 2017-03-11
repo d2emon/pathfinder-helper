@@ -37,8 +37,7 @@ def test_loglevel():
 
 
 def test_help_message():
-    import getopt
-    with pytest.raises(getopt.GetoptError) as excinfo:
+    with pytest.raises(SystemExit) as excinfo:
         gui.commandline.parseArgs(["-h", ])
         gui.commandline.parseArgs(["--help", ])
     assert excinfo is not None
@@ -48,24 +47,25 @@ def test_count():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
         gui.commandline.parseArgs(["-c", "5", ])
-        gui.commandline.parseArgs(["--count", "5", ])
+        gui.commandline.parseArgs(["--count=5", ])
 
 
 def test_roll():
     import getopt
+    method = "stndard"
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-r", "r", ])
-        gui.commandline.parseArgs(["--roll", "r", ])
+        gui.commandline.parseArgs(["-r", method, ])
+        gui.commandline.parseArgs(["--roll={}".format(method), ])
 
 
 def test_file():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
         gui.commandline.parseArgs(["-f", LOGFILE, ])
-        gui.commandline.parseArgs(["--file", LOGFILE, ])
+        gui.commandline.parseArgs(["--file={}".format(LOGFILE), ])
 
 
 def test_actions():
     import getopt
     with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-l", LOGFILE, ], True)
+        gui.commandline.parseArgs(["--action={}".format(LOGFILE), ], True)

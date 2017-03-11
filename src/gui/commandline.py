@@ -69,22 +69,25 @@ def parseArgs(argv, action=False):
         gui.DEBUG = True
 
     setupLog(options)
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            raise getopt.GetoptError("")
-        elif opt in ("-c", "--count"):
-            options["count"] = int(arg)
-        elif opt in ("-r", "--roll"):
-            import pathfinder.ruleset
-            methods = {
-                "standard": pathfinder.ruleset.roll.STANDARD,
-                "classic": pathfinder.ruleset.roll.CLASSIC,
-                "heroic": pathfinder.ruleset.roll.HEROIC,
-            }
-            options["rollMethod"] = methods[arg]
-    if len(args) > 0:
-        if action:
-            options["action"] = args.pop(0)
-        options["args"] = args
-
+    try:
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                raise getopt.GetoptError("")
+            elif opt in ("-c", "--count"):
+                options["count"] = int(arg)
+            elif opt in ("-r", "--roll"):
+                import pathfinder.ruleset
+                methods = {
+                    "standard": pathfinder.ruleset.roll.STANDARD,
+                    "classic": pathfinder.ruleset.roll.CLASSIC,
+                    "heroic": pathfinder.ruleset.roll.HEROIC,
+                }
+                options["rollMethod"] = methods[arg]
+        if len(args) > 0:
+            if action:
+                options["action"] = args.pop(0)
+            options["args"] = args
+    except getopt.GetoptError:
+        return gui.helpMessage()
+        
     return options

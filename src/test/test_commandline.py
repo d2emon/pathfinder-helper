@@ -3,7 +3,7 @@ Testing Commandline
 """
 
 import pytest
-from gui import logger
+import gui
 import gui.commandline
 
 
@@ -12,7 +12,7 @@ LOGFILE = LOGPATH.format("testlog.log")
 
 
 def test_log_setup():
-    assert gui.commandline.setupLog({'--logfile': LOGFILE}) == logger
+    assert gui.commandline.setupLog({'--logfile': LOGFILE}) == gui.logger
     
 
 def test_help_message():
@@ -24,10 +24,17 @@ def test_help_message():
 
 
 def test_loglevel():
-    import getopt
-    with pytest.raises(getopt.GetoptError) as excinfo:
-        gui.commandline.parseArgs(["-d", ])
-        gui.commandline.parseArgs(["--debug", ])
+    gui.DEBUG = False
+    gui.commandline.parseArgs(["-d", ])
+    assert gui.DEBUG == True
+    
+    gui.DEBUG = False
+    gui.commandline.parseArgs(["--debug", ])
+    assert gui.DEBUG == True
+
+    gui.DEBUG = False
+    gui.commandline.parseArgs([])
+    assert gui.DEBUG == False
 
 
 def test_logfile():

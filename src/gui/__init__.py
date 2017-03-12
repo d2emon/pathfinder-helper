@@ -47,11 +47,11 @@ def askRollMethod():
     Asking for roll method
     """
     def getMethod(index):
-        import ruleset.roll
+        import pathfinder.ruleset.roll
         methods = [
-            ruleset.roll.STANDARD,
-            ruleset.roll.CLASSIC,
-            ruleset.roll.HEROIC,
+            pathfinder.ruleset.roll.STANDARD,
+            pathfinder.ruleset.roll.CLASSIC,
+            pathfinder.ruleset.roll.HEROIC,
         ]
         try:
             usePool = (index == 4)

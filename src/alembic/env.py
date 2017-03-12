@@ -19,6 +19,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 import models.rpa
+import models.race
 def combine_metadata(*args):
     m = MetaData()
     for metadata in args:
@@ -26,7 +27,7 @@ def combine_metadata(*args):
             t.tometadata(m)
     return m
 
-target_metadata = combine_metadata(models.rpa.Base.metadata)
+target_metadata = combine_metadata(models.rpa.Base.metadata, models.race.Base.metadata)
 # target_metadata = None
 
 # other values from the config, defined by the needs of env.py,

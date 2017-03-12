@@ -27,8 +27,8 @@ def setupLog(options):
     # Debug mode
     if gui.DEBUG:
         config['level'] = logging.DEBUG
-        filename = 'log/debug.log'
-        
+        filename = '../log/debug.log'
+
         gui.logger.setLevel(config['level'])
 
         handler = logging.StreamHandler()
@@ -49,6 +49,7 @@ def setupLog(options):
     handler.setFormatter(formatter)
     gui.logger.addHandler(handler)
 
+    # print(config)
     logging.basicConfig(**config)
     return gui.logger
 
@@ -89,5 +90,5 @@ def parseArgs(argv, action=False):
             options["args"] = args
     except getopt.GetoptError:
         return gui.helpMessage()
-        
+
     return options

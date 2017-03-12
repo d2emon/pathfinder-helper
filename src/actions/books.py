@@ -1,33 +1,5 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
-PATHFINDER = [
-    {"book": "PathC", "title": "1.Getting Started"},
-    {"book": "PathC", "title": "2.Races"},
-    {"book": "PathC", "title": "3.Classes"},
-    {"book": "PathC", "title": "4.Skills"},
-    {"book": "PathC", "title": "5.Feats"},
-    {"book": "PathC", "title": "6.Equipment"},
-    {"book": "PathC", "title": "7.Additional"},
-    {"book": "PathC", "title": "8.Combat"},
-    {"book": "PathC", "title": "9.Magic"},
-    {"book": "PathC", "title": "10.Spells"},
-    {"book": "PathC", "title": "11.Prestige Classes"},
-    {"book": "PathC", "title": "12.Gamemastering"},
-    {"book": "PathC", "title": "13.Environment"},
-    {"book": "PathC", "title": "14.Creating NPC"},
-    {"book": "PathC", "title": "15.Magic Items"},
-    {"book": "PathC", "title": "A1.Special Abilities"},
-    {"book": "PathC", "title": "A2.Conditions"},
-
-    {"book": "PathA", "title": "1.Races"},
-    {"book": "PathA", "title": "2.Classes"},
-    {"book": "PathA", "title": "3.Feats"},
-    {"book": "PathA", "title": "4.Equipment"},
-    {"book": "PathA", "title": "5.Spells"},
-    {"book": "PathA", "title": "6.Magic Items"},
-    {"book": "PathA", "title": "7.New Rules"},
-]
-
 DND3 = [
     {"book": "PHB", "title": "1.Abilities"},
     {"book": "PHB", "title": "2.Races"},

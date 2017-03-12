@@ -4,16 +4,7 @@ import logging
 import gui.menu
 
 import actions.books
-
-def pathfinder(id):
-    r = gui.menu.showMenu(items=actions.books.PATHFINDER)
-    print(r)
-    r = gui.menu.showMenu(items=["{title} ({book})".format(
-        title=u.get("title", "\u2026"),
-        book=u.get("book", ""),
-    ) for u in UNITS])
-    print(r)
-    return id
+import actions.pathfinder
 
 
 def dnd(id):
@@ -29,14 +20,14 @@ def cyclo(id):
 
 
 UNITS = [
-    {"title": "Pathfinder", "action": pathfinder},
+    {"title": "Pathfinder", "action": actions.pathfinder.chapters},
     {"title": "DnD 3.5", "action": dnd},
     {"title": "Cyclopedia", "action": cyclo},
 ]
 
 
 def selectBook(bookId):
-    logging.debug("Book #%d", bookId)
+    logging.debug("Book #%d - %s", bookId, UNITS[bookId])
     book = UNITS[bookId].get("action", None)
     return book(bookId)
 

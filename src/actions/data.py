@@ -18,6 +18,7 @@ CMDS = {
 
 
 ACTIONS = [
+    {"title": "Book", "action": actions.editions.menu, "id": 21},
     {"title": "Adventure", "action": CMDS["adventure"], "id": 1},
     {"title": "Art Object", "action": CMDS["equipment"], "id": 2},
     {"title": "Adventure"},
@@ -38,5 +39,4 @@ ACTIONS = [
     {"title": "Adventure"},
     {"title": "Encounter", "action": CMDS["encounter"], "id": 19},
     {"title": "Generator", "action": CMDS["generate"], "id": 20},
-    {"title": "Book", "action": actions.editions.menu, "id": 21},
 ]

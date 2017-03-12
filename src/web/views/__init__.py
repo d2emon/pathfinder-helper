@@ -3,7 +3,7 @@
 from flask import g, render_template, redirect, session
 from flask.helpers import url_for
 from web import app
-from web.models import pc, current_rpg
+from web.models import pc
 
 
 # from web.views.char import character, new_character, edit_character
@@ -12,34 +12,7 @@ from web.views.actions import *
 from web.views.game_system import *
 from web.views.campaign import *
 from web.views.session import *
-
-
-@app.route("/char")
-def char_list():
-    g.pc = pc
-    selected = pc[0]
-    return redirect(url_for("charsheet", char_id=selected.id))
-
-
-@app.route("/char/add")
-def char_add():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/char/del")
-def char_del():
-    return redirect(url_for("char_list"))
-
-
-@app.route("/char/<int:char_id>")
-def charsheet(char_id):
-    print(session["session"])
-    if char_id <= 0:
-        return redirect(url_for("char_list"))
-
-    g.pc = pc
-    g.selected = pc[char_id - 1]
-    return render_template("char.html")
+from web.views.char import *
 
 
 @app.route("/name")

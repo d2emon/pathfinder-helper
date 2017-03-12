@@ -4,6 +4,7 @@ from flask import g, render_template, redirect, session
 from flask.helpers import url_for
 from web import app
 from web.models import pc
+from models.race import Race
 
 
 @app.route("/char")
@@ -37,11 +38,8 @@ def charsheet(char_id):
 
 
 @app.route("/race/select")
-def race_sel(race_id=None):
-    import logging
-    logging.debug("Race #%d", race_id)
-
-    import random
+def race_sel():
+    # import random
     import pathfinder.character.rooster
     import pathfinder.race
     rooster = pathfinder.character.rooster.Rooster()
@@ -49,5 +47,15 @@ def race_sel(race_id=None):
     rooster.add(count=5)
     rooster.defineAbility()
 
-    races = [random.choice(list(pathfinder.race.RACES.keys())) for i in rooster.chars]
+    # races = [random.choice(list(pathfinder.race.RACES.keys())) for i in rooster.chars]
+    races = Race.query.all()
     return render_template("char/races.html", races=races)
+
+
+@app.route("/race/<int:race_id>")
+def race_show(race_id=None):
+    import logging
+    logging.debug("Race #%d", race_id)
+
+    race = Race.query.get(race_id)
+    return render_template("char/show-race.html", race=race)

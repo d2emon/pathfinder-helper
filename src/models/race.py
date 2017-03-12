@@ -7,6 +7,11 @@ from models import Base
 SIZE_SMALL = -1
 SIZE_MEDIUM = 0
 
+SIZE_DESC = {
+    SIZE_SMALL: "Маленький",
+    SIZE_MEDIUM: "Средний",
+}
+
 
 SPEED_MEDIUM = 30
 
@@ -36,3 +41,6 @@ class Race(Base):
 
     def __repr__(self):
         return self.name
+
+    def size(self):
+        return SIZE_DESC.get(self.size_bonus)

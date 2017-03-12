@@ -4,7 +4,7 @@
 <ul>
   <li><a href="#">Добавить</a></li>
   {% for r in races %}
-  <li>{{ r }} </li>
+    <li><a href="{{ url_for('race_show', race_id=r.id) }}">{{ r }}</a></li>
   {% endfor %}
   <li>Определить Способности (10, 10, 10, 10, 10, 10)</li>
   <li>Выберите Расу (Человек)</li>

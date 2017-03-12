@@ -44,3 +44,6 @@ class Race(Base):
 
     def size(self):
         return SIZE_DESC.get(self.size_bonus)
+
+    def languages(self):
+        return ["Всеобщий", ]

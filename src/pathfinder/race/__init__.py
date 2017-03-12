@@ -39,6 +39,16 @@ def raceById(id):
     return RACES.get(id, Race)()
 
 
+def raceHuman():
+    import models.race
+    r = models.race.Race()
+    r.name = "Человек"
+    r.custom_ability = 2
+    r.bonus_feat = 1
+    r.bonus_skill = 1
+    return r
+
+
 class Race():
     def __init__(self):
         self.name = "Unknown"

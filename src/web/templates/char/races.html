@@ -1,9 +1,13 @@
-{% extends "charlist.html" %}
-{% block char %}
-<h1>{{g.selected.name}}</h1>
-<ol>
+{% extends "rpa.html" %}
+{% block content %}
+<h1>Расы</h1>
+<ul>
+  <li><a href="#">Добавить</a></li>
+  {% for r in races %}
+  <li>{{ r }} </li>
+  {% endfor %}
   <li>Определить Способности (10, 10, 10, 10, 10, 10)</li>
-  <li><a href="{{ url_for('race_sel') }}">Выберите Расу</a> (Человек)</li>
+  <li>Выберите Расу (Человек)</li>
   <li>Выберите Класс (Простолюдин)</li>
   <li>Выберите Умения и Навыки</li>
   <li>Выберите Снаряжение</li>
@@ -20,5 +24,5 @@
       <li>Внешность</li>
     </ul>
   </li>
-</ol>
+</ul>
 {% endblock %}

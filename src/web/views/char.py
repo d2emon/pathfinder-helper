@@ -34,3 +34,20 @@ def charsheet(char_id):
     g.pc = pc
     g.selected = pc[char_id - 1]
     return render_template("char/view.html")
+
+
+@app.route("/race/select")
+def race_sel(race_id=None):
+    import logging
+    logging.debug("Race #%d", race_id)
+
+    import random
+    import pathfinder.character.rooster
+    import pathfinder.race
+    rooster = pathfinder.character.rooster.Rooster()
+    # rooster.load(filename)
+    rooster.add(count=5)
+    rooster.defineAbility()
+
+    races = [random.choice(list(pathfinder.race.RACES.keys())) for i in rooster.chars]
+    return render_template("char/races.html", races=races)

@@ -13,7 +13,7 @@ class GameSystem(Base):
     version = Column(String(16))
     website = Column(String(255))
     campaigns = relationship("Campaign")
-    
+
     def __repr__(self):
         return "{} ({})".format(self.name, self.version)
 
@@ -24,7 +24,8 @@ class Campaign(Base):
     gs_id = Column(Integer, ForeignKey('game_system.id'))
     title = Column(String(32))
     sessions = relationship("GameSession")
-    
+    characters = relationship("GameCharacter")
+
     def __repr__(self):
         return self.title
 
@@ -36,8 +37,18 @@ class GameSession(Base):
     real_date = Column(Date, server_default=func.now())
     title = Column(String(32))
     description = Column(UnicodeText())
-    
+
     def __repr__(self):
         if self.title:
             return self.title
         return str(self.real_date)
+
+
+class GameCharacter(Base):
+    __tablename__ = 'game_character'
+    id = Column(Integer, primary_key=True)
+    campaign_id = Column(Integer, ForeignKey('campaign.id'))
+
+    def __repr__(self):
+        title = "Char {}".format(self.id)
+        return title
